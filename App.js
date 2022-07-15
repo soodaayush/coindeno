@@ -1,0 +1,132 @@
+import { useState } from "react";
+import { StyleSheet, Text, View, Button, TextInput, Image } from "react-native";
+
+export default function App() {
+  const [enteredTicker, setEnteredTicker] = useState("");
+  const [tickerData, setTickerData] = useState([]);
+
+  let coinData = [];
+
+  function tickerInputHandler(enteredText) {
+    setEnteredTicker(enteredText);
+  }
+
+  function addTicker() {
+    let tickerInfo = getTickerData(enteredTicker);
+
+    tickerInfo.then((results) => {
+      let ticker = {
+        id: results.id,
+        name: results.name,
+        image: results.image.large,
+        price: results.market_data.current_price.cad,
+      };
+
+      console.log(ticker);
+
+      setTickerData([...tickerData, ticker]);
+
+      coinData.push(ticker);
+    });
+
+    console.log(tickerData);
+
+    setTickerData(coinData);
+  }
+
+  async function getTickerData(enteredText) {
+    try {
+      let response = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${enteredText
+          .toString()
+          .toLowerCase()}`
+      );
+
+      let responseJson = await response.json();
+
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return (
+    <View style={styles.appContainer}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Coin Ticker"
+          onChangeText={tickerInputHandler}
+        />
+        <Button title="Add Ticker" onPress={addTicker} />
+      </View>
+      <View style={styles.tickersContainer}>
+        <Text style={styles.tickerListHeader}>List of Tickers:</Text>
+        {tickerData.map((ticker, index) => (
+          <View key={index} style={styles.tickerListItem}>
+            <Text style={styles.tickersText}>{ticker.name}</Text>
+            <Text style={styles.tickersText}>
+              {new Intl.NumberFormat("en", {
+                style: "currency",
+                currency: "cad",
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+              }).format(ticker.price)}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    backgroundColor: "#231955",
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E8AA42",
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#E8AA42",
+    width: "70%",
+    marginRight: 8,
+    padding: 8,
+    color: "#FFE5B4",
+  },
+  tickersContainer: {
+    flex: 5,
+    paddingTop: 10,
+    color: "#FFE5B4",
+  },
+  tickerListHeader: {
+    marginBottom: 10,
+    color: "#FFE5B4",
+    fontSize: 20,
+  },
+  tickerListItem: {
+    marginTop: 5,
+    marginBottom: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "#E8AA42",
+    padding: 10,
+    backgroundColor: "#1F4690",
+    borderRadius: 10,
+  },
+  tickersText: {
+    color: "#FFE5B4",
+    fontSize: 15,
+  },
+});
