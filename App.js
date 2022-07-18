@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput, Image } from "react-native";
+import "intl";
+import "intl/locale-data/jsonp/en";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [enteredTicker, setEnteredTicker] = useState("");
@@ -17,21 +27,18 @@ export default function App() {
     tickerInfo.then((results) => {
       let ticker = {
         id: results.id,
+        key: Math.random().toString(),
         name: results.name,
         image: results.image.large,
         price: results.market_data.current_price.cad,
       };
-
-      console.log(ticker);
 
       setTickerData([...tickerData, ticker]);
 
       coinData.push(ticker);
     });
 
-    console.log(tickerData);
-
-    setTickerData(coinData);
+    // setTickerData(coinData);
   }
 
   async function getTickerData(enteredText) {
@@ -61,20 +68,22 @@ export default function App() {
         <Button title="Add Ticker" onPress={addTicker} />
       </View>
       <View style={styles.tickersContainer}>
-        <Text style={styles.tickerListHeader}>List of Tickers:</Text>
-        {tickerData.map((ticker, index) => (
-          <View key={index} style={styles.tickerListItem}>
-            <Text style={styles.tickersText}>{ticker.name}</Text>
-            <Text style={styles.tickersText}>
-              {new Intl.NumberFormat("en", {
-                style: "currency",
-                currency: "cad",
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 2,
-              }).format(ticker.price)}
-            </Text>
-          </View>
-        ))}
+        <FlatList
+          data={tickerData}
+          renderItem={(itemData) => {
+            <View style={styles.tickerListItem}>
+              <Text style={styles.tickersText}>{itemData.item.name}</Text>
+              <Text style={styles.tickersText}>
+                {new Intl.NumberFormat("en", {
+                  style: "currency",
+                  currency: "cad",
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2,
+                }).format(itemData.item.price)}
+              </Text>
+            </View>;
+          }}
+        />
       </View>
     </View>
   );
