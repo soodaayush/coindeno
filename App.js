@@ -1,27 +1,26 @@
 import { useState } from "react";
+import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StatusBar } from "expo-status-bar";
+
 import "intl";
 import "intl/locale-data/jsonp/en";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  ScrollView,
-  FlatList,
-} from "react-native";
+
+import TickerItem from "./components/TickerItem";
+import TickerInput from "./components/TickerInput";
 
 export default function App() {
-  const [enteredTicker, setEnteredTicker] = useState("");
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [tickerData, setTickerData] = useState([]);
 
-  let coinData = [];
-
-  function tickerInputHandler(enteredText) {
-    setEnteredTicker(enteredText);
+  function startModal() {
+    setModalIsVisible(true);
   }
 
-  function addTicker() {
+  function endModal() {
+    setModalIsVisible(false);
+  }
+
+  function addTicker(enteredTicker) {
     let tickerInfo = getTickerData(enteredTicker);
 
     tickerInfo.then((results) => {
@@ -34,11 +33,9 @@ export default function App() {
       };
 
       setTickerData([...tickerData, ticker]);
-
-      coinData.push(ticker);
     });
 
-    // setTickerData(coinData);
+    endModal();
   }
 
   async function getTickerData(enteredText) {
@@ -57,35 +54,42 @@ export default function App() {
     }
   }
 
+  function deleteTicker(id) {
+    setTickerData((currentTickerData) => {
+      return currentTickerData.filter((ticker) => ticker.id !== id);
+    });
+  }
+
   return (
-    <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Coin Ticker"
-          onChangeText={tickerInputHandler}
-        />
-        <Button title="Add Ticker" onPress={addTicker} />
+    <>
+      <StatusBar style="light" />
+      <View style={styles.appContainer}>
+        <Button title="Add New Ticker" color="#E8AA42" onPress={startModal} />
+        {modalIsVisible && (
+          <TickerInput
+            visible={modalIsVisible}
+            onAddTicker={addTicker}
+            onCancel={endModal}
+          />
+        )}
+        <View style={styles.tickersContainer}>
+          <FlatList
+            data={tickerData}
+            renderItem={(itemData) => {
+              return (
+                <TickerItem
+                  name={itemData.item.name}
+                  price={itemData.item.price}
+                  logo={itemData.item.image}
+                  id={itemData.item.id}
+                  onDeleteTicker={deleteTicker}
+                />
+              );
+            }}
+          />
+        </View>
       </View>
-      <View style={styles.tickersContainer}>
-        <FlatList
-          data={tickerData}
-          renderItem={(itemData) => {
-            <View style={styles.tickerListItem}>
-              <Text style={styles.tickersText}>{itemData.item.name}</Text>
-              <Text style={styles.tickersText}>
-                {new Intl.NumberFormat("en", {
-                  style: "currency",
-                  currency: "cad",
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 2,
-                }).format(itemData.item.price)}
-              </Text>
-            </View>;
-          }}
-        />
-      </View>
-    </View>
+    </>
   );
 }
 
@@ -96,23 +100,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#231955",
   },
-  inputContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E8AA42",
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#E8AA42",
-    width: "70%",
-    marginRight: 8,
-    padding: 8,
-    color: "#FFE5B4",
-  },
   tickersContainer: {
     flex: 5,
     paddingTop: 10,
@@ -122,20 +109,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: "#FFE5B4",
     fontSize: 20,
-  },
-  tickerListItem: {
-    marginTop: 5,
-    marginBottom: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "#E8AA42",
-    padding: 10,
-    backgroundColor: "#1F4690",
-    borderRadius: 10,
-  },
-  tickersText: {
-    color: "#FFE5B4",
-    fontSize: 15,
   },
 });
