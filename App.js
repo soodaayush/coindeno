@@ -7,9 +7,11 @@ import "intl/locale-data/jsonp/en";
 
 import TickerItem from "./components/TickerItem";
 import TickerInput from "./components/TickerInput";
+import LoginModal from "./components/LoginModal";
 
 export default function App() {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [loginModalIsVisible, setLoginModalIsVisible] = useState(false);
   const [tickerData, setTickerData] = useState([]);
 
   function startModal() {
@@ -18,6 +20,14 @@ export default function App() {
 
   function endModal() {
     setModalIsVisible(false);
+  }
+
+  function startLoginModal() {
+    setLoginModalIsVisible(true);
+  }
+
+  function endLoginModal() {
+    setLoginModalIsVisible(false);
   }
 
   function addTicker(enteredTicker) {
@@ -64,6 +74,7 @@ export default function App() {
     <>
       <StatusBar style="light" />
       <View style={styles.appContainer}>
+        <Button title="Login" color="#E8AA42" onPress={startLoginModal} />
         <Button title="Add New Ticker" color="#E8AA42" onPress={startModal} />
         {modalIsVisible && (
           <TickerInput
@@ -71,6 +82,9 @@ export default function App() {
             onAddTicker={addTicker}
             onCancel={endModal}
           />
+        )}
+        {loginModalIsVisible && (
+          <LoginModal visible={loginModalIsVisible} onCancel={endLoginModal} />
         )}
         <View style={styles.tickersContainer}>
           <FlatList
