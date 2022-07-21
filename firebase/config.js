@@ -1,19 +1,18 @@
-import * as firebase from "firebase";
-import "@firebase/auth";
-import "@firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCktIk2YhS79ieikrfev_mUTdK3KFDs3n8",
   authDomain: "soodmax-reactnative.firebaseapp.com",
-  databaseURL: "https://soodmax-reactnative-default-rtdb.firebaseio.com/",
+  databaseURL: "https://soodmax-reactnative-default-rtdb.firebaseio.com",
   projectId: "soodmax-reactnative",
   storageBucket: "soodmax-reactnative.appspot.com",
-  messagingSenderId: "12345-insert-yourse",
-  appId: "1:84723869958:web:e7c3521bd475cae3d51687",
+  messagingSenderId: "84723869958",
+  appId: "1:84723869958:web:cd6f54f0ac465b50d51687",
+  measurementId: "G-W5T2VRX7QZ",
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+// Initialize Firebase
 
-export { firebase };
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);

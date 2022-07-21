@@ -1,5 +1,4 @@
 import { StyleSheet, View, Modal, Button } from "react-native";
-import {} from "firebase/auth";
 
 function LoginModal(props) {
   return (
