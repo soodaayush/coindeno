@@ -9,7 +9,13 @@ function TickerInput(props) {
   }
 
   function addTicker() {
+    if (enteredTicker === "") {
+      alert("Please enter a ticker");
+      return;
+    }
+
     props.onAddTicker(enteredTicker);
+
     setEnteredTicker("");
   }
 
@@ -22,6 +28,7 @@ function TickerInput(props) {
           placeholderTextColor="#FFE5B4"
           onChangeText={tickerInputHandler}
           value={enteredTicker}
+          keyboardAppearance="dark"
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
