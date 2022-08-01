@@ -6,7 +6,6 @@ import "intl";
 import "intl/locale-data/jsonp/en";
 
 import TickerItem from "../components/TickerItem";
-import TickerInput from "../components/TickerInput";
 
 import { auth } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
@@ -14,7 +13,6 @@ import { useNavigation } from "@react-navigation/core";
 import configData from "../config.json";
 
 const HomeScreen = () => {
-  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [tickerData, setTickerData] = useState([]);
 
   const navigation = useNavigation();
@@ -59,18 +57,12 @@ const HomeScreen = () => {
 
           tickersArr.push(ticker);
 
+          tickersArr.sort((a, b) => a.name.localeCompare(b.name));
+
           setTickerData(tickersArr);
         });
       }
     });
-  }
-
-  function startModal() {
-    setModalIsVisible(true);
-  }
-
-  function endModal() {
-    setModalIsVisible(false);
   }
 
   function addTicker(enteredTicker) {
@@ -90,8 +82,6 @@ const HomeScreen = () => {
 
       printData();
     });
-
-    endModal();
   }
 
   async function saveTickerToDatabase(ticker) {
@@ -170,6 +160,10 @@ const HomeScreen = () => {
       .catch((error) => alert(error.message));
   }
 
+  function redirectToAddTickerPage() {
+    navigation.replace("Add Ticker");
+  }
+
   return (
     <>
       <StatusBar style="light" />
@@ -178,14 +172,11 @@ const HomeScreen = () => {
           <Text style={styles.text}>{auth.currentUser?.email}</Text>
           <Button title="Log Out" color="#E8AA42" onPress={handleSignOut} />
         </View>
-        <Button title="Add New Ticker" color="#E8AA42" onPress={startModal} />
-        {modalIsVisible && (
-          <TickerInput
-            visible={modalIsVisible}
-            onAddTicker={addTicker}
-            onCancel={endModal}
-          />
-        )}
+        <Button
+          title="Add New Ticker"
+          color="#E8AA42"
+          onPress={redirectToAddTickerPage}
+        />
         <View style={styles.tickersContainer}>
           <FlatList
             data={tickerData}
