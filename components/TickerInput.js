@@ -29,6 +29,7 @@ function TickerInput(props) {
           onChangeText={tickerInputHandler}
           value={enteredTicker}
           keyboardAppearance="dark"
+          autoCorrect={false}
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>

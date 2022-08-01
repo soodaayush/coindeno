@@ -72,7 +72,7 @@ const LoginScreen = () => {
         <Button
           title="login"
           style={styles.button}
-          color="#FFE5B4"
+          color="#E8AA42"
           onPress={handleLogin}
         >
           <Text>Login</Text>
@@ -80,7 +80,7 @@ const LoginScreen = () => {
         <Button
           title="register"
           style={styles.button}
-          color="#FFE5B4"
+          color="#E8AA42"
           onPress={handleSignUp}
         >
           <Text>Register</Text>
@@ -126,5 +126,6 @@ const styles = StyleSheet.create({
   },
   button: {
     color: "#FFE5B4",
+    marginRight: 20,
   },
 });
