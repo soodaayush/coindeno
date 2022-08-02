@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Button,
   Text,
   FlatList,
   Pressable,
   Image,
-  TextInput,
 } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
@@ -15,12 +13,13 @@ import { useNavigation } from "@react-navigation/native";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
+import AppButton from "../components/AppButton";
+
 import configData from "../config.json";
 import { auth } from "../firebase/config";
 
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
-  const [searchBoxText, setSearchBoxText] = useState("");
 
   const navigation = useNavigation();
 
@@ -127,41 +126,9 @@ const AddTickerScreen = () => {
     }
   }
 
-  // function searchForTicker() {
-  //   if (searchBoxText === "") {
-  //     console.log(tickerDataList);
-  //     printData();
-  //   }
-
-  //   console.log(searchBoxText);
-
-  //   tickerDataList = tickerDataList.filter(
-  //     (td) => searchBoxText.toLowerCase() !== td.id
-  //   );
-  //   console.log(tickerDataList);
-  //   setTickers(tickerDataList);
-  // }
-
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      {/* <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Ticker"
-          style={styles.textInput}
-          value={searchBoxText}
-          onChangeText={(text) => setSearchBoxText(text)}
-          placeholderTextColor="#FFE5B4"
-          autoCorrect={false}
-          keyboardAppearance="dark"
-        />
-        <Button
-          title="Search"
-          style={styles.button}
-          color="#E8AA42"
-          onPress={searchForTicker}
-        />
-      </View> */}
       <View style={styles.tickersList}>
         <FlatList
           data={tickersData}
@@ -197,12 +164,20 @@ const AddTickerScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Button title="Add Ticker(s)" color="#E8AA42" onPress={addTicker} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Back" color="#E8AA42" onPress={goBackToHomePage} />
-        </View>
+        <AppButton
+          backgroundColor="#1F4690"
+          text="Add"
+          textColor="#FFE5B4"
+          onPress={addTicker}
+          direction="row"
+        />
+        <AppButton
+          backgroundColor="#1F4690"
+          text="Back"
+          textColor="#FFE5B4"
+          onPress={goBackToHomePage}
+          direction="row"
+        />
       </View>
     </View>
   );
@@ -235,24 +210,18 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginTop: 10,
   },
-  button: {
-    color: "#FFE5B4",
-    marginLeft: 20,
-  },
   tickersList: {
     flex: 5,
     paddingTop: 10,
-    color: "#FFE5B4",
     width: "100%",
   },
   buttonContainer: {
     marginBottom: 16,
     marginTop: 16,
     flexDirection: "row",
-  },
-  button: {
-    width: "30%",
-    marginHorizontal: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
   tickerListItem: {
     marginTop: 5,
