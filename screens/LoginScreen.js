@@ -6,10 +6,12 @@ import {
   View,
   KeyboardAvoidingView,
   TextInput,
-  Button,
 } from "react-native";
+
 import { auth } from "../firebase/config";
 import { StatusBar } from "expo-status-bar";
+
+import AppButton from "../components/AppButton";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -57,6 +59,7 @@ const LoginScreen = () => {
           onChangeText={(text) => setEmail(text)}
           placeholderTextColor="#FFE5B4"
           keyboardAppearance="dark"
+          keyboardType="email-address"
         />
         <TextInput
           placeholder="Password"
@@ -69,22 +72,18 @@ const LoginScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-          title="login"
-          style={styles.button}
-          color="#E8AA42"
+        <AppButton
+          backgroundColor="#0096FF"
+          textColor="#72FFFF"
+          text="Log In"
           onPress={handleLogin}
-        >
-          <Text>Login</Text>
-        </Button>
-        <Button
-          title="register"
-          style={styles.button}
-          color="#E8AA42"
+        />
+        <AppButton
+          backgroundColor="#00D7FF"
+          textColor="black"
+          text="Register"
           onPress={handleSignUp}
-        >
-          <Text>Register</Text>
-        </Button>
+        />
       </View>
     </KeyboardAvoidingView>
   );
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
   },
   pageHeader: {
     fontSize: 45,
-    color: "#FFE5B4",
+    color: "#E8AA42",
     marginBottom: 20,
   },
   inputContainer: {
@@ -119,13 +118,11 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 6,
     marginTop: 10,
+    fontSize: 18,
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     marginTop: 20,
-  },
-  button: {
-    color: "#FFE5B4",
-    marginRight: 20,
+    width: "90%",
   },
 });

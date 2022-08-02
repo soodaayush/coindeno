@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, Button, Text, Alert } from "react-native";
+import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import "intl";
 import "intl/locale-data/jsonp/en";
 
 import TickerItem from "../components/TickerItem";
+import AppButton from "../components/AppButton";
 
 import { auth } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
@@ -63,39 +64,6 @@ const HomeScreen = () => {
         });
       }
     });
-  }
-
-  function addTicker(enteredTicker) {
-    let tickerInfo = getTickerData(enteredTicker);
-
-    tickerInfo.then((results) => {
-      if (results.error) {
-        alert(results.error);
-        return;
-      }
-
-      let ticker = {
-        name: results.id,
-      };
-
-      saveTickerToDatabase(ticker);
-
-      printData();
-    });
-  }
-
-  async function saveTickerToDatabase(ticker) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers.json`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(ticker),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.json();
   }
 
   async function getTickersFromDatabase() {
@@ -170,11 +138,17 @@ const HomeScreen = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.text}>{auth.currentUser?.email}</Text>
-          <Button title="Log Out" color="#E8AA42" onPress={handleSignOut} />
+          <AppButton
+            backgroundColor="#1F4690"
+            text="Log Out"
+            textColor="#FFE5B4"
+            onPress={handleSignOut}
+          />
         </View>
-        <Button
-          title="Add New Ticker"
-          color="#E8AA42"
+        <AppButton
+          backgroundColor="#1F4690"
+          text="Add Ticker"
+          textColor="#FFE5B4"
           onPress={redirectToAddTickerPage}
         />
         <View style={styles.tickersContainer}>
@@ -220,12 +194,6 @@ const styles = StyleSheet.create({
   tickersContainer: {
     flex: 5,
     paddingTop: 10,
-    color: "#FFE5B4",
     width: "100%",
-  },
-  tickerListHeader: {
-    marginBottom: 10,
-    color: "#FFE5B4",
-    fontSize: 20,
   },
 });
