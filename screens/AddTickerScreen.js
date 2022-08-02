@@ -165,14 +165,14 @@ const AddTickerScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <AppButton
-          backgroundColor="#1F4690"
+          backgroundColor="#377D71"
           text="Add"
           textColor="#FFE5B4"
           onPress={addTicker}
           direction="row"
         />
         <AppButton
-          backgroundColor="#1F4690"
+          backgroundColor="#EB1D36"
           text="Back"
           textColor="#FFE5B4"
           onPress={goBackToHomePage}

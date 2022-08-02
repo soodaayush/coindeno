@@ -139,18 +139,20 @@ const HomeScreen = () => {
         <View style={styles.header}>
           <Text style={styles.text}>{auth.currentUser?.email}</Text>
           <AppButton
-            backgroundColor="#1F4690"
+            backgroundColor="#EB1D36"
             text="Log Out"
             textColor="#FFE5B4"
             onPress={handleSignOut}
           />
         </View>
-        <AppButton
-          backgroundColor="#1F4690"
-          text="Add Ticker"
-          textColor="#FFE5B4"
-          onPress={redirectToAddTickerPage}
-        />
+        <View style={styles.addTickerContainer}>
+          <AppButton
+            backgroundColor="#377D71"
+            text="Add Ticker"
+            textColor="#FFE5B4"
+            onPress={redirectToAddTickerPage}
+          />
+        </View>
         <View style={styles.tickersContainer}>
           <FlatList
             data={tickerData}
@@ -190,6 +192,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#FFE5B4",
+  },
+  addTickerContainer: {
+    width: "100%",
   },
   tickersContainer: {
     flex: 5,
