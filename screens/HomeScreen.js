@@ -7,6 +7,7 @@ import "intl/locale-data/jsonp/en";
 
 import TickerItem from "../components/TickerItem";
 import AppButton from "../components/AppButton";
+import Loading from "../components/Loading";
 
 import { auth } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
@@ -15,6 +16,7 @@ import configData from "../config.json";
 
 const HomeScreen = () => {
   const [tickerData, setTickerData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -28,6 +30,8 @@ const HomeScreen = () => {
     let tickers = getTickersFromDatabase();
 
     tickers.then((data) => {
+      setIsLoading(false);
+
       for (let key in data) {
         let ticker = {
           key: key,
@@ -130,6 +134,15 @@ const HomeScreen = () => {
 
   function redirectToAddTickerPage() {
     navigation.replace("Add Ticker");
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="light" />
+        <Loading />
+      </View>
+    );
   }
 
   return (

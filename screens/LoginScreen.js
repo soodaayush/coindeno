@@ -60,6 +60,8 @@ const LoginScreen = () => {
           placeholderTextColor="#FFE5B4"
           keyboardAppearance="dark"
           keyboardType="email-address"
+          autoCapitalize="none"
+          autoCorrect={false}
         />
         <TextInput
           placeholder="Password"
