@@ -14,12 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import AppButton from "../components/AppButton";
+import Loading from "../components/Loading";
 
 import configData from "../config.json";
 import { auth } from "../firebase/config";
 
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -33,6 +35,8 @@ const AddTickerScreen = () => {
 
   function printData() {
     getTickers().then((tickerData) => {
+      setIsLoading(false);
+
       let tickers = getTickersFromDatabase();
 
       tickers.then((data) => {
@@ -85,6 +89,11 @@ const AddTickerScreen = () => {
   }
 
   function addTicker() {
+    if (tickerList.length < 1) {
+      alert("Please select one or more tickers!");
+      return;
+    }
+
     tickerList.forEach((ticker) => {
       let tickerObj = {
         name: ticker,
@@ -126,6 +135,15 @@ const AddTickerScreen = () => {
     }
   }
 
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="light" />
+        <Loading />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -135,12 +153,7 @@ const AddTickerScreen = () => {
           renderItem={(tickerData) => {
             return (
               <View style={styles.tickerListItem}>
-                <Pressable
-                  android_ripple={{ color: "#dddddd" }}
-                  style={({ pressed }) =>
-                    pressed ? styles.pressedItem : styles.unpressedItem
-                  }
-                >
+                <Pressable style={styles.ticker}>
                   <View style={styles.infoView}>
                     <BouncyCheckbox
                       size={15}
@@ -231,12 +244,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1F4690",
     borderRadius: 10,
   },
-  pressedItem: {
-    opacity: 0.5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  unpressedItem: {
+  ticker: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
