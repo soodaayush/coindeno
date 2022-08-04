@@ -176,21 +176,23 @@ const AddTickerScreen = () => {
           }}
         />
       </View>
-      <View style={styles.buttonContainer}>
-        <AppButton
-          backgroundColor="#377D71"
-          text="Add"
-          textColor="#FFE5B4"
-          onPress={addTicker}
-          direction="row"
-        />
-        <AppButton
-          backgroundColor="#EB1D36"
-          text="Back"
-          textColor="#FFE5B4"
-          onPress={goBackToHomePage}
-          direction="row"
-        />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#377D71"
+            text="Add"
+            textColor="#FFE5B4"
+            onPress={addTicker}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#EB1D36"
+            text="Back"
+            textColor="#FFE5B4"
+            onPress={goBackToHomePage}
+          />
+        </View>
       </View>
     </View>
   );
@@ -228,13 +230,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     width: "100%",
   },
-  buttonContainer: {
+  buttonsContainer: {
     marginBottom: 16,
     marginTop: 16,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    borderWidth: 1,
+  },
+  buttonContainer: {
+    marginRight: 20,
   },
   tickerListItem: {
     marginTop: 5,

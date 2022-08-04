@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, Text, Alert } from "react-native";
+import { StyleSheet, View, FlatList, Alert, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 import "intl";
@@ -17,6 +17,7 @@ import configData from "../config.json";
 const HomeScreen = () => {
   const [tickerData, setTickerData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currency, setCurrency] = useState("");
 
   const navigation = useNavigation();
 
@@ -28,6 +29,8 @@ const HomeScreen = () => {
     let tickerArray = [];
 
     let tickers = getTickersFromDatabase();
+
+    let currency = getCurrencyFromDatabase();
 
     tickers.then((data) => {
       setIsLoading(false);
@@ -43,36 +46,64 @@ const HomeScreen = () => {
 
       let tickersArr = [];
 
-      for (let i = 0; i < tickerArray.length; i++) {
-        let tickerInfo = getTickerData(tickerArray[i].name);
+      currency.then((currencyData) => {
+        let currency;
 
-        tickerInfo.then((results) => {
-          if (results.error) {
-            alert(results.error);
-            return;
+        if (currencyData === null) {
+          currency = "cad";
+          setCurrency(currency);
+        } else {
+          for (let key in currencyData) {
+            currency = currencyData[key].currency.toLowerCase();
+            setCurrency(currency);
           }
+        }
 
-          let ticker = {
-            id: results.id,
-            key: tickerArray[i].key,
-            name: results.name,
-            image: results.image.large,
-            price: results.market_data.current_price.cad,
-          };
+        for (let i = 0; i < tickerArray.length; i++) {
+          let tickerInfo = getTickerData(tickerArray[i].name);
 
-          tickersArr.push(ticker);
+          tickerInfo.then((results) => {
+            if (results.error) {
+              alert(results.error);
+              return;
+            }
 
-          tickersArr.sort((a, b) => a.name.localeCompare(b.name));
+            let ticker = {
+              id: results.id,
+              key: tickerArray[i].key,
+              name: results.name,
+              image: results.image.large,
+              price: results.market_data.current_price[currency],
+            };
 
-          setTickerData(tickersArr);
-        });
-      }
+            tickersArr.push(ticker);
+
+            tickersArr.sort((a, b) => a.name.localeCompare(b.name));
+
+            setTickerData(tickersArr);
+          });
+        }
+      });
     });
   }
 
   async function getTickersFromDatabase() {
     try {
       let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers.json`;
+
+      let response = await fetch(url);
+
+      let responseJson = await response.json();
+
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getCurrencyFromDatabase() {
+    try {
+      let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
 
       let response = await fetch(url);
 
@@ -136,6 +167,10 @@ const HomeScreen = () => {
     navigation.replace("Add Ticker");
   }
 
+  function redirectToSettingsPage() {
+    navigation.replace("Settings");
+  }
+
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -150,7 +185,13 @@ const HomeScreen = () => {
       <StatusBar style="light" />
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.text}>{auth.currentUser?.email}</Text>
+          <AppButton
+            backgroundColor="#1F4690"
+            textColor="#FFE5B4"
+            onPress={redirectToSettingsPage}
+            settingImage={true}
+            direction="row"
+          />
           <AppButton
             backgroundColor="#EB1D36"
             text="Log Out"
@@ -176,6 +217,7 @@ const HomeScreen = () => {
                   price={tickerData.item.price}
                   logo={tickerData.item.image}
                   id={tickerData.item.key}
+                  currency={currency}
                   onDeleteTicker={deleteTicker}
                 />
               );

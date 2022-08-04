@@ -18,7 +18,7 @@ function TickerItem(props) {
           <Text style={styles.tickersText}>
             {new Intl.NumberFormat("en", {
               style: "currency",
-              currency: "cad",
+              currency: props.currency,
               minimumFractionDigits: 0,
               maximumFractionDigits: 2,
             }).format(props.price)}

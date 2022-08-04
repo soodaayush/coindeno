@@ -1,14 +1,16 @@
-import { Text, View, Pressable } from "react-native";
+import { Text, View, Pressable, Image } from "react-native";
 
 const AppButton = (props) => {
   return (
-    <View style={{ marginRight: props.direction === "row" ? 15 : 0 }}>
+    <View>
       <Pressable
         style={({ pressed }) =>
           pressed
             ? [
                 {
                   backgroundColor: props.backgroundColor,
+                  flexDirection: props.direction === "row" ? "row" : "column",
+                  alignItems: "center",
                   padding: 10,
                   borderRadius: 10,
                   width: "100%",
@@ -20,6 +22,8 @@ const AppButton = (props) => {
               ]
             : {
                 backgroundColor: props.backgroundColor,
+                flexDirection: props.direction === "row" ? "row" : "column",
+                alignItems: "center",
                 padding: 10,
                 borderRadius: 10,
                 width: "100%",
@@ -29,6 +33,12 @@ const AppButton = (props) => {
         onPress={props.onPress}
         android_ripple={{ color: "#1F4690" }}
       >
+        {props.settingImage && (
+          <Image
+            source={require("../assets/settings-icon.png")}
+            style={{ height: 30, width: 30 }}
+          />
+        )}
         <Text
           style={{
             color: props.textColor,
