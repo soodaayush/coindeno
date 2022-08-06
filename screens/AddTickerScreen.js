@@ -26,7 +26,6 @@ const AddTickerScreen = () => {
 
   const navigation = useNavigation();
 
-  let tickerList = [];
   let tickerArray = [];
   let tickerDataList = [];
 
@@ -93,56 +92,40 @@ const AddTickerScreen = () => {
   function addTicker() {
     console.log(selectedTickers);
 
-    if (tickerList.length < 1) {
+    if (selectedTickers.length < 1) {
       alert("Please select one or more tickers!");
       return;
     }
 
-    // console.log(tickerList);
+    const promiseArray = [];
 
-    // tickerList.forEach((ticker) => {
-    //   let tickerObj = {
-    //     name: ticker,
-    //   };
+    selectedTickers.forEach((ticker) => {
+      let tickerObj = {
+        name: ticker,
+      };
 
-    // });
+      let p = saveTickerToDatabase(tickerObj);
+      promiseArray.push(p);
+    });
 
-    // tickerList.forEach((ticker) => {
-    //   let tickerObj = {
-    //     name: ticker,
-    //   };
-
-    //   let allPromise = Promise.all([saveTickerToDatabase(tickerObj)]).then(
-    //     () => {
-    //       goBackToHomePage();
-    //     }
-    //   );
-    // });
+    Promise.all(promiseArray).then(() => {
+      goBackToHomePage();
+    });
   }
 
   function addTickerToList(ticker) {
-    // for (let i = 0; i < tickerList.length; i++) {
-    //   if (tickerList[i] === ticker) {
-    //     let index = tickerList.indexOf(ticker);
-    //     tickerList.splice(index, 1);
-    //     return;
-    //   }
-    // }
-
     const exists = selectedTickers.filter((a) => a === ticker);
-
-    console.log(exists.length);
+    console.log("Exists", exists);
 
     if (exists.length > 0) {
-      setSelectedTickers(selectedTickers.filter((a) => a !== ticker));
+      setSelectedTickers((currentTickers) => {
+        return currentTickers.filter((t) => t !== ticker);
+      });
     } else {
-      // tickerList.push(ticker);
-      setSelectedTickers((currentSelectedTickers) => [
-        ...currentSelectedTickers,
-        ticker,
-      ]);
+      setSelectedTickers((currentTickers) => {
+        return [...currentTickers, ticker];
+      });
     }
-    console.log(selectedTickers);
   }
 
   function goBackToHomePage() {
