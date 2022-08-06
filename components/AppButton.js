@@ -39,15 +39,17 @@ const AppButton = (props) => {
             style={{ height: 30, width: 30 }}
           />
         )}
-        <Text
-          style={{
-            color: props.textColor,
-            textAlign: "center",
-            fontSize: 18,
-          }}
-        >
-          {props.text}
-        </Text>
+        {props.text && (
+          <Text
+            style={{
+              color: props.textColor,
+              textAlign: "center",
+              fontSize: 18,
+            }}
+          >
+            {props.text}
+          </Text>
+        )}
       </Pressable>
     </View>
   );

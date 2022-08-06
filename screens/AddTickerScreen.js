@@ -22,6 +22,7 @@ import { auth } from "../firebase/config";
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTickers, setSelectedTickers] = useState([]);
 
   const navigation = useNavigation();
 
@@ -85,36 +86,63 @@ const AddTickerScreen = () => {
       },
     });
 
-    return response.json();
+    let responseJson = await response.json();
+    return responseJson;
   }
 
   function addTicker() {
+    console.log(selectedTickers);
+
     if (tickerList.length < 1) {
       alert("Please select one or more tickers!");
       return;
     }
 
-    tickerList.forEach((ticker) => {
-      let tickerObj = {
-        name: ticker,
-      };
+    // console.log(tickerList);
 
-      saveTickerToDatabase(tickerObj);
-    });
+    // tickerList.forEach((ticker) => {
+    //   let tickerObj = {
+    //     name: ticker,
+    //   };
 
-    goBackToHomePage();
+    // });
+
+    // tickerList.forEach((ticker) => {
+    //   let tickerObj = {
+    //     name: ticker,
+    //   };
+
+    //   let allPromise = Promise.all([saveTickerToDatabase(tickerObj)]).then(
+    //     () => {
+    //       goBackToHomePage();
+    //     }
+    //   );
+    // });
   }
 
   function addTickerToList(ticker) {
-    for (let i = 0; i < tickerList.length; i++) {
-      if (tickerList[i] === ticker) {
-        let index = tickerList.indexOf(ticker);
-        tickerList.splice(index, 1);
-        return;
-      }
-    }
+    // for (let i = 0; i < tickerList.length; i++) {
+    //   if (tickerList[i] === ticker) {
+    //     let index = tickerList.indexOf(ticker);
+    //     tickerList.splice(index, 1);
+    //     return;
+    //   }
+    // }
 
-    tickerList.push(ticker);
+    const exists = selectedTickers.filter((a) => a === ticker);
+
+    console.log(exists.length);
+
+    if (exists.length > 0) {
+      setSelectedTickers(selectedTickers.filter((a) => a !== ticker));
+    } else {
+      // tickerList.push(ticker);
+      setSelectedTickers((currentSelectedTickers) => [
+        ...currentSelectedTickers,
+        ticker,
+      ]);
+    }
+    console.log(selectedTickers);
   }
 
   function goBackToHomePage() {
@@ -153,7 +181,11 @@ const AddTickerScreen = () => {
           renderItem={(tickerData) => {
             return (
               <View style={styles.tickerListItem}>
-                <Pressable style={styles.ticker}>
+                <Pressable
+                  style={({ pressed }) =>
+                    pressed ? [styles.ticker, styles.pressed] : styles.ticker
+                  }
+                >
                   <View style={styles.infoView}>
                     <BouncyCheckbox
                       size={15}
@@ -225,6 +257,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginTop: 10,
   },
+  pressed: {
+    opacity: 0.75,
+  },
   tickersList: {
     flex: 5,
     paddingTop: 10,
@@ -237,7 +272,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    borderWidth: 1,
   },
   buttonContainer: {
     marginRight: 20,
