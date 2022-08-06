@@ -90,8 +90,6 @@ const AddTickerScreen = () => {
   }
 
   function addTicker() {
-    console.log(selectedTickers);
-
     if (selectedTickers.length < 1) {
       alert("Please select one or more tickers!");
       return;
@@ -115,7 +113,6 @@ const AddTickerScreen = () => {
 
   function addTickerToList(ticker) {
     const exists = selectedTickers.filter((a) => a === ticker);
-    console.log("Exists", exists);
 
     if (exists.length > 0) {
       setSelectedTickers((currentTickers) => {
@@ -171,8 +168,8 @@ const AddTickerScreen = () => {
                 >
                   <View style={styles.infoView}>
                     <BouncyCheckbox
-                      size={15}
-                      unfillColor="#FFFFFF"
+                      size={30}
+                      unfillColor="#FFE5B4"
                       fillColor="#231955"
                       style={{ marginLeft: 12 }}
                       onPress={() => addTickerToList(tickerData.item.id)}
