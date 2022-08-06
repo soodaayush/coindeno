@@ -1,5 +1,12 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, Alert, Image } from "react-native";
+import { useState, useEffect, useCallback } from "react";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Alert,
+  RefreshControl,
+} from "react-native";
+
 import { StatusBar } from "expo-status-bar";
 
 import "intl";
@@ -18,6 +25,7 @@ const HomeScreen = () => {
   const [tickerData, setTickerData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currency, setCurrency] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   const navigation = useNavigation();
 
@@ -52,9 +60,16 @@ const HomeScreen = () => {
         if (currencyData === null) {
           currency = "cad";
           setCurrency(currency);
+
+          let currency = {
+            currency: currency,
+            currencyLabel: "CAD - Canadian Dollar",
+          };
+
+          saveCurrencyToDatabase(currency);
         } else {
           for (let key in currencyData) {
-            currency = currencyData[key].currency.toLowerCase();
+            currency = currencyData[key].currency;
             setCurrency(currency);
           }
         }
@@ -115,6 +130,20 @@ const HomeScreen = () => {
     }
   }
 
+  async function saveCurrencyToDatabase(currency) {
+    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
+
+    let response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(currency),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.json();
+  }
+
   async function getTickerData(enteredText) {
     try {
       let response = await fetch(
@@ -144,8 +173,9 @@ const HomeScreen = () => {
       {
         text: "Yes",
         onPress: () => {
-          deleteTickerFromDatabase(key);
-          printData();
+          deleteTickerFromDatabase(key).then(() => {
+            printData();
+          });
         },
       },
       {
@@ -171,6 +201,12 @@ const HomeScreen = () => {
     navigation.replace("Settings");
   }
 
+  const onRefresh = useCallback(() => {
+    setRefresh(true);
+    printData();
+    setRefresh(false);
+  }, [refresh]);
+
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -190,7 +226,6 @@ const HomeScreen = () => {
             textColor="#FFE5B4"
             onPress={redirectToSettingsPage}
             settingImage={true}
-            direction="row"
           />
           <AppButton
             backgroundColor="#EB1D36"
@@ -210,6 +245,9 @@ const HomeScreen = () => {
         <View style={styles.tickersContainer}>
           <FlatList
             data={tickerData}
+            refreshControl={
+              <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+            }
             renderItem={(tickerData) => {
               return (
                 <TickerItem
@@ -250,6 +288,9 @@ const styles = StyleSheet.create({
   },
   addTickerContainer: {
     width: "100%",
+  },
+  refreshContainer: {
+    width: "40%",
   },
   tickersContainer: {
     flex: 5,

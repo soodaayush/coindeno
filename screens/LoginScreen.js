@@ -48,7 +48,17 @@ const LoginScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <KeyboardAvoidingView
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1,
+        paddingTop: 50,
+        paddingHorizontal: 16,
+        backgroundColor: "#231955",
+      }}
+      behavior="padding"
+    >
       <StatusBar style="light" />
       <Text style={styles.pageHeader}>Login</Text>
       <View style={styles.inputContainer}>
@@ -94,14 +104,6 @@ const LoginScreen = () => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: 50,
-    paddingHorizontal: 16,
-    backgroundColor: "#231955",
-  },
   pageHeader: {
     fontSize: 45,
     color: "#E8AA42",

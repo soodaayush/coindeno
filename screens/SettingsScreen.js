@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
@@ -7,42 +7,61 @@ import { Dropdown } from "react-native-element-dropdown";
 import { auth } from "../firebase/config";
 
 import AppButton from "../components/AppButton";
+import Loading from "../components/Loading";
 
 import configData from "../config.json";
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
 
-  const [dropdownValue, setDropdownValue] = useState("");
+  const [currencyDropdownValue, setCurrencyDropdownValue] = useState("");
+  const [currencyLabel, setCurrencyLabel] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const data = [
-    { label: "CAD", value: "cad" },
-    { label: "EUR", value: "eur" },
-    { label: "GBP", value: "gbp" },
-    { label: "INR", value: "inr" },
-    { label: "USD", value: "usd" },
+  const currencyData = [
+    { label: "CAD - Canadian Dollar", value: "cad" },
+    { label: "EUR - Euro", value: "eur" },
+    { label: "GBP - British Pound Sterling", value: "gbp" },
+    { label: "INR - Indian Rupee", value: "inr" },
+    { label: "USD - US Dollar", value: "usd" },
+    { label: "JPY - Japanese Yen", value: "jpy" },
+    { label: "CNY - Chinese Yuan", value: "cny" },
+    { label: "RUB - Russian Ruble", value: "rub" },
+    { label: "KRW - South Korean Won", value: "krw" },
   ];
+
+  useEffect(() => {
+    getCurrencySettingsFromDatabase().then((data) => {
+      setIsLoading(false);
+
+      for (let key in data) {
+        let currency = data[key].currencyLabel;
+        setCurrencyLabel(currency);
+      }
+    });
+  }, []);
 
   function redirectToHomePage() {
     navigation.replace("Home");
   }
 
   function saveSettings() {
-    if (dropdownValue.label === undefined) {
+    if (currencyDropdownValue.label === undefined) {
       alert("Please make edits to your settings to save them!");
       return;
     }
 
     let currency = {
-      currency: dropdownValue.label,
+      currency: currencyDropdownValue.value,
+      currencyLabel: currencyDropdownValue.label,
     };
 
-    getSettingsFromDatabase().then((data) => {
+    getCurrencySettingsFromDatabase().then((data) => {
       if (data === null || data === undefined) {
-        saveSettingsToDatabase(currency);
+        saveCurrencySettingsToDatabase(currency);
       } else {
         for (let key in data) {
-          editSettings(currency, key);
+          editCurrencySettings(currency, key);
         }
       }
     });
@@ -50,7 +69,7 @@ const SettingsScreen = () => {
     alert("Settings Saved!");
   }
 
-  async function getSettingsFromDatabase() {
+  async function getCurrencySettingsFromDatabase() {
     try {
       let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
 
@@ -64,7 +83,7 @@ const SettingsScreen = () => {
     }
   }
 
-  async function saveSettingsToDatabase(currency) {
+  async function saveCurrencySettingsToDatabase(currency) {
     let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
 
     let response = await fetch(url, {
@@ -78,13 +97,22 @@ const SettingsScreen = () => {
     return response.json();
   }
 
-  async function editSettings(currency, id) {
+  async function editCurrencySettings(currency, id) {
     let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency/${id}.json`;
 
     return await fetch(url, {
       method: "PUT",
       body: JSON.stringify(currency),
     });
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.container}>
+        <StatusBar style="light" />
+        <Loading />
+      </View>
+    );
   }
 
   return (
@@ -108,20 +136,17 @@ const SettingsScreen = () => {
       <View style={styles.setting}>
         <Text style={styles.settingText}>Preferred Currency:</Text>
         <Dropdown
-          data={data}
+          data={currencyData}
           style={styles.dropdown}
           selectedTextStyle={styles.selectedTextStyle}
           labelField="label"
           valueField="value"
-          placeholder="Select item"
-          value={dropdownValue}
-          onChange={(value) => setDropdownValue(value)}
-          search
-          searchPlaceholder="Search..."
+          placeholder={currencyLabel}
+          value={currencyDropdownValue}
+          onChange={(value) => setCurrencyDropdownValue(value)}
           placeholderStyle={styles.text}
         />
       </View>
-      <View style={styles.saveButtonContainer}></View>
     </View>
   );
 };
@@ -153,6 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1F4690",
     borderRadius: 10,
     padding: 20,
+    marginBottom: 20,
   },
   settingText: {
     color: "#FFE5B4",
@@ -169,9 +195,6 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     color: "#FFE5B4",
-  },
-  saveButtonContainer: {
-    marginTop: 20,
   },
 });
 
