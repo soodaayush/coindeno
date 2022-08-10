@@ -5,6 +5,7 @@ import {
   FlatList,
   Alert,
   RefreshControl,
+  SafeAreaView,
 } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
@@ -20,6 +21,8 @@ import { auth } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
 
 import configData from "../config.json";
+
+import Colors from "../constants/colors";
 
 const HomeScreen = () => {
   const [tickerData, setTickerData] = useState([]);
@@ -169,19 +172,25 @@ const HomeScreen = () => {
   }
 
   function deleteTicker(key) {
-    Alert.alert("Alert", "Are you sure you want to delete this ticker?", [
-      {
-        text: "Yes",
-        onPress: () => {
-          deleteTickerFromDatabase(key).then(() => {
-            printData();
-          });
+    Alert.alert(
+      "Ticker Deletion",
+      "Are you sure you want to delete this ticker?",
+      [
+        {
+          text: "Yes",
+          style: "destructive",
+          onPress: () => {
+            deleteTickerFromDatabase(key).then(() => {
+              printData();
+            });
+          },
         },
-      },
-      {
-        text: "No",
-      },
-    ]);
+        {
+          text: "No",
+          style: "cancel",
+        },
+      ]
+    );
   }
 
   function handleSignOut() {
@@ -219,18 +228,18 @@ const HomeScreen = () => {
   return (
     <>
       <StatusBar style="light" />
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <AppButton
             backgroundColor="#1F4690"
-            textColor="#FFE5B4"
+            textColor={Colors.text}
             onPress={redirectToSettingsPage}
             settingImage={true}
           />
           <AppButton
             backgroundColor="#EB1D36"
             text="Log Out"
-            textColor="#FFE5B4"
+            textColor={Colors.text}
             onPress={handleSignOut}
           />
         </View>
@@ -262,7 +271,7 @@ const HomeScreen = () => {
             }}
           />
         </View>
-      </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -272,29 +281,27 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
     alignItems: "center",
     paddingHorizontal: 16,
-    backgroundColor: "#231955",
+    backgroundColor: Colors.background,
+    paddingTop: 40,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
+    width: "90%",
   },
   text: {
-    color: "#FFE5B4",
+    color: Colors.text,
+    fontFamily: "poppins-regular",
   },
   addTickerContainer: {
-    width: "100%",
-  },
-  refreshContainer: {
-    width: "40%",
+    width: "90%",
   },
   tickersContainer: {
     flex: 5,
     paddingTop: 10,
-    width: "100%",
+    width: "90%",
   },
 });

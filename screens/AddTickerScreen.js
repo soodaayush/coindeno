@@ -6,6 +6,7 @@ import {
   FlatList,
   Pressable,
   Image,
+  SafeAreaView,
 } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
@@ -18,6 +19,8 @@ import Loading from "../components/Loading";
 
 import configData from "../config.json";
 import { auth } from "../firebase/config";
+
+import Colors from "../constants/colors";
 
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
@@ -109,6 +112,15 @@ const AddTickerScreen = () => {
     Promise.all(promiseArray).then(() => {
       goBackToHomePage();
     });
+
+    // Promise.allSettled = (promises) =>
+    //   Promise.all(
+    //     promises.map((p) =>
+    //       p.then(() => {
+    //         goBackToHomePage();
+    //       })
+    //     )
+    //   );
   }
 
   function addTickerToList(ticker) {
@@ -153,7 +165,7 @@ const AddTickerScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.tickersList}>
         <FlatList
@@ -169,8 +181,8 @@ const AddTickerScreen = () => {
                   <View style={styles.infoView}>
                     <BouncyCheckbox
                       size={30}
-                      unfillColor="#FFE5B4"
-                      fillColor="#231955"
+                      unfillColor={Colors.text}
+                      fillColor={Colors.background}
                       style={{ marginLeft: 12 }}
                       onPress={() => addTickerToList(tickerData.item.id)}
                     />
@@ -193,7 +205,7 @@ const AddTickerScreen = () => {
           <AppButton
             backgroundColor="#377D71"
             text="Add"
-            textColor="#FFE5B4"
+            textColor={Colors.text}
             onPress={addTicker}
           />
         </View>
@@ -201,12 +213,12 @@ const AddTickerScreen = () => {
           <AppButton
             backgroundColor="#EB1D36"
             text="Back"
-            textColor="#FFE5B4"
+            textColor={Colors.text}
             onPress={goBackToHomePage}
           />
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -214,11 +226,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 50,
     paddingLeft: 16,
     paddingRight: 16,
     borderBottomWidth: 1,
-    backgroundColor: "#231955",
+    backgroundColor: Colors.background,
+    paddingTop: 40,
   },
   searchContainer: {
     flexDirection: "row",
@@ -226,28 +238,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#E8AA42",
-    width: "75%",
-    padding: 8,
-    color: "#FFE5B4",
-    backgroundColor: "#1F4690",
-    padding: 16,
-    borderRadius: 6,
-    marginTop: 10,
-  },
   pressed: {
     opacity: 0.75,
   },
   tickersList: {
     flex: 5,
     paddingTop: 10,
-    width: "100%",
+    width: "95%",
   },
   buttonsContainer: {
-    marginBottom: 16,
-    marginTop: 16,
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -260,8 +260,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 1,
     borderWidth: 1,
-    borderColor: "#E8AA42",
-    backgroundColor: "#1F4690",
+    borderColor: Colors.border,
+    backgroundColor: Colors.tickerBackground,
     borderRadius: 10,
   },
   ticker: {
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   tickersText: {
-    color: "#FFE5B4",
+    color: Colors.text,
     fontSize: 15,
     padding: 10,
   },
