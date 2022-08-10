@@ -13,6 +13,8 @@ import { StatusBar } from "expo-status-bar";
 
 import AppButton from "../components/AppButton";
 
+import Colors from "../constants/colors";
+
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +57,7 @@ const LoginScreen = () => {
         flex: 1,
         paddingTop: 50,
         paddingHorizontal: 16,
-        backgroundColor: "#231955",
+        backgroundColor: Colors.background,
       }}
       behavior="padding"
     >
@@ -67,7 +69,7 @@ const LoginScreen = () => {
           style={styles.textInput}
           value={email}
           onChangeText={(text) => setEmail(text)}
-          placeholderTextColor="#FFE5B4"
+          placeholderTextColor={Colors.text}
           keyboardAppearance="dark"
           keyboardType="email-address"
           autoCapitalize="none"
@@ -78,7 +80,7 @@ const LoginScreen = () => {
           style={styles.textInput}
           value={password}
           onChangeText={(text) => setPassword(text)}
-          placeholderTextColor="#FFE5B4"
+          placeholderTextColor={Colors.text}
           secureTextEntry
           keyboardAppearance="dark"
         />
@@ -106,19 +108,21 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   pageHeader: {
     fontSize: 45,
-    color: "#E8AA42",
+    color: Colors.textHeader,
     marginBottom: 20,
+    fontFamily: "poppins-medium",
   },
   inputContainer: {
     width: "90%",
   },
   textInput: {
     borderWidth: 1,
-    borderColor: "#E8AA42",
+    borderColor: Colors.border,
     width: "100%",
     padding: 8,
-    color: "#FFE5B4",
-    backgroundColor: "#1F4690",
+    color: Colors.text,
+    backgroundColor: Colors.inputBackground,
+    fontFamily: "poppins-regular",
     padding: 16,
     borderRadius: 6,
     marginTop: 10,

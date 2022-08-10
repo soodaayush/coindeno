@@ -1,5 +1,7 @@
 import { Text, View, Pressable, Image } from "react-native";
 
+import Colors from "../constants/colors";
+
 const AppButton = (props) => {
   return (
     <View>
@@ -31,7 +33,7 @@ const AppButton = (props) => {
               }
         }
         onPress={props.onPress}
-        android_ripple={{ color: "#1F4690" }}
+        android_ripple={{ color: Colors.androidRipple }}
       >
         {props.settingImage && (
           <Image
@@ -44,6 +46,7 @@ const AppButton = (props) => {
             style={{
               color: props.textColor,
               textAlign: "center",
+              fontFamily: "poppins-regular",
               fontSize: 18,
             }}
           >

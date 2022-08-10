@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
 import { Dropdown } from "react-native-element-dropdown";
@@ -10,6 +10,8 @@ import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
 
 import configData from "../config.json";
+
+import Colors from "../constants/colors";
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
@@ -116,19 +118,19 @@ const SettingsScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.header}>
         <AppButton
           backgroundColor="#EB1D36"
           text="Back"
-          textColor="#FFE5B4"
+          textColor={Colors.text}
           onPress={redirectToHomePage}
         />
         <AppButton
           backgroundColor="#377D71"
           text="Save"
-          textColor="#FFE5B4"
+          textColor={Colors.text}
           onPress={saveSettings}
         />
       </View>
@@ -144,10 +146,11 @@ const SettingsScreen = () => {
           placeholder={currencyLabel}
           value={currencyDropdownValue}
           onChange={(value) => setCurrencyDropdownValue(value)}
+          fontFamily="poppins-regular"
           placeholderStyle={styles.text}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -157,36 +160,39 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     alignItems: "center",
     paddingHorizontal: 16,
-    backgroundColor: "#231955",
+    backgroundColor: Colors.background,
   },
   header: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
+    width: "90%",
   },
   pageHeader: {
     fontSize: 45,
-    color: "#E8AA42",
+    color: Colors.textHeader,
     marginBottom: 20,
+    fontFamily: "poppins-medium",
   },
   text: {
-    color: "#FFE5B4",
+    color: Colors.text,
+    fontFamily: "poppins-regular",
   },
   setting: {
-    width: "100%",
-    backgroundColor: "#1F4690",
+    width: "90%",
+    backgroundColor: Colors.settingBackground,
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
   },
   settingText: {
-    color: "#FFE5B4",
+    color: Colors.text,
     fontSize: 20,
+    fontFamily: "poppins-regular",
   },
   dropdown: {
     marginTop: 20,
-    borderColor: "#E8AA42",
+    borderColor: Colors.border,
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
@@ -194,7 +200,8 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   selectedTextStyle: {
-    color: "#FFE5B4",
+    color: Colors.text,
+    fontFamily: "poppins-regular",
   },
 });
 

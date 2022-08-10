@@ -1,5 +1,7 @@
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 
+import Colors from "../constants/colors";
+
 function TickerItem(props) {
   return (
     <View style={styles.tickerListItem}>
@@ -34,8 +36,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 1,
     borderWidth: 1,
-    borderColor: "#E8AA42",
-    backgroundColor: "#1F4690",
+    borderColor: Colors.border,
+    backgroundColor: Colors.tickerBackground,
     borderRadius: 10,
   },
   pressedItem: {
@@ -48,9 +50,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   tickersText: {
-    color: "#FFE5B4",
+    color: Colors.text,
     fontSize: 15,
     padding: 10,
+    fontFamily: "poppins-regular",
   },
   infoView: {
     flexDirection: "row",

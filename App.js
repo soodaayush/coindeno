@@ -2,6 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { LogBox } from "react-native";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -16,6 +18,15 @@ LogBox.ignoreLogs([
 ]);
 
 export default function App() {
+  let [fontsLoaded] = useFonts({
+    "poppins-regular": require("./assets/Poppins/Poppins-Regular.ttf"),
+    "poppins-medium": require("./assets/Poppins/Poppins-Medium.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
