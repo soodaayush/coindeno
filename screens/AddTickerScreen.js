@@ -158,6 +158,24 @@ const AddTickerScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#EB1D36"
+            text=">"
+            textColor={Colors.text}
+            onPress={goBackToHomePage}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#377D71"
+            text="+"
+            textColor={Colors.text}
+            onPress={addTicker}
+          />
+        </View>
+      </View>
       <View style={styles.tickersList}>
         <FlatList
           data={tickersData}
@@ -173,24 +191,6 @@ const AddTickerScreen = () => {
             );
           }}
         />
-      </View>
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <AppButton
-            backgroundColor="#377D71"
-            text="Add"
-            textColor={Colors.text}
-            onPress={addTicker}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <AppButton
-            backgroundColor="#EB1D36"
-            text="Back"
-            textColor={Colors.text}
-            onPress={goBackToHomePage}
-          />
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -220,12 +220,9 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginTop: 20,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
-  },
-  buttonContainer: {
-    marginRight: 20,
+    width: "90%",
   },
 });
 
