@@ -46,6 +46,10 @@ const HomeScreen = () => {
     tickers.then((data) => {
       setIsLoading(false);
 
+      if (data === null) {
+        setTickerData([]);
+      }
+
       for (let key in data) {
         let ticker = {
           key: key,

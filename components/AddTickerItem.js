@@ -1,36 +1,32 @@
 import { memo } from "react";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Colors from "../constants/colors";
 
-function TickerItem(props) {
+const AddTickerItem = (props) => {
   return (
     <View style={styles.tickerListItem}>
       <Pressable
-        android_ripple={{ color: "#dddddd" }}
-        onPress={props.onDeleteTicker.bind(this, props.id)}
         style={({ pressed }) =>
-          pressed ? styles.pressedItem : styles.unpressedItem
+          pressed ? [styles.ticker, styles.pressed] : styles.ticker
         }
       >
         <View style={styles.infoView}>
+          <BouncyCheckbox
+            size={30}
+            unfillColor={Colors.text}
+            fillColor={Colors.background}
+            style={{ marginLeft: 12 }}
+            onPress={props.onAddTickerToList.bind(this, props.id)}
+          />
           <Image style={styles.image} source={{ uri: props.logo }} />
           <Text style={styles.tickersText}>{props.name}</Text>
-        </View>
-        <View style={styles.infoView}>
-          <Text style={styles.tickersText}>
-            {new Intl.NumberFormat("en", {
-              style: "currency",
-              currency: props.currency,
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 2,
-            }).format(props.price)}
-          </Text>
         </View>
       </Pressable>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   tickerListItem: {
@@ -41,12 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.tickerBackground,
     borderRadius: 10,
   },
-  pressedItem: {
-    opacity: 0.5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  unpressedItem: {
+  ticker: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -54,7 +45,6 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 15,
     padding: 10,
-    fontFamily: "poppins-regular",
   },
   infoView: {
     flexDirection: "row",
@@ -65,6 +55,9 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 10,
   },
+  pressed: {
+    opacity: 0.75,
+  },
 });
 
-export default memo(TickerItem);
+export default memo(AddTickerItem);
