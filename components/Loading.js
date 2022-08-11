@@ -1,10 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import LottieView from "lottie-react-native";
 
 const Loading = () => {
   return (
     <LottieView
-      source={require("../loading.json")}
+      source={require("../assets/loading.json")}
       style={styles.animation}
       autoPlay
     />

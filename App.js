@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { LogBox } from "react-native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -17,6 +17,8 @@ LogBox.ignoreLogs([
   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
 ]);
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     "poppins-regular": require("./assets/Poppins/Poppins-Regular.ttf"),
@@ -24,7 +26,9 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
+  } else {
+    SplashScreen.hideAsync();
   }
 
   return (

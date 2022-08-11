@@ -1,21 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
-import BouncyCheckbox from "react-native-bouncy-checkbox";
-
 import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
+import AddTickerItem from "../components/AddTickerItem";
 
 import configData from "../config.json";
 import { auth } from "../firebase/config";
@@ -172,30 +163,13 @@ const AddTickerScreen = () => {
           data={tickersData}
           renderItem={(tickerData) => {
             return (
-              <View style={styles.tickerListItem}>
-                <Pressable
-                  style={({ pressed }) =>
-                    pressed ? [styles.ticker, styles.pressed] : styles.ticker
-                  }
-                >
-                  <View style={styles.infoView}>
-                    <BouncyCheckbox
-                      size={30}
-                      unfillColor={Colors.text}
-                      fillColor={Colors.background}
-                      style={{ marginLeft: 12 }}
-                      onPress={() => addTickerToList(tickerData.item.id)}
-                    />
-                    <Image
-                      style={styles.image}
-                      source={{ uri: tickerData.item.image }}
-                    />
-                    <Text style={styles.tickersText}>
-                      {tickerData.item.name}
-                    </Text>
-                  </View>
-                </Pressable>
-              </View>
+              <AddTickerItem
+                name={tickerData.item.name}
+                price={tickerData.item.price}
+                logo={tickerData.item.image}
+                id={tickerData.item.id}
+                onAddTickerToList={addTickerToList}
+              />
             );
           }}
         />
@@ -238,9 +212,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
-  pressed: {
-    opacity: 0.75,
-  },
   tickersList: {
     flex: 5,
     paddingTop: 10,
@@ -255,32 +226,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginRight: 20,
-  },
-  tickerListItem: {
-    marginTop: 5,
-    marginBottom: 1,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.tickerBackground,
-    borderRadius: 10,
-  },
-  ticker: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  tickersText: {
-    color: Colors.text,
-    fontSize: 15,
-    padding: 10,
-  },
-  infoView: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  image: {
-    width: 50,
-    height: 50,
-    margin: 10,
   },
 });
 
