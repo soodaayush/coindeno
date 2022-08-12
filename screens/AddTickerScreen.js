@@ -162,7 +162,7 @@ const AddTickerScreen = () => {
         <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor="#EB1D36"
-            text=">"
+            text="> Back"
             textColor={Colors.text}
             onPress={goBackToHomePage}
           />
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "90%",
+    width: "95%",
   },
 });
 
