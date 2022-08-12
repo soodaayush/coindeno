@@ -65,7 +65,7 @@ const LoginScreen = () => {
       <StatusBar style="light" />
       <Image
         source={require("../assets/icon.png")}
-        style={{ height: 300, width: 300 }}
+        style={{ height: 150, width: 150 }}
       />
       <View style={styles.inputContainer}>
         <TextInput
@@ -89,19 +89,23 @@ const LoginScreen = () => {
           keyboardAppearance="dark"
         />
       </View>
-      <View style={styles.buttonContainer}>
-        <AppButton
-          backgroundColor="#0096FF"
-          textColor="#72FFFF"
-          text="Log In"
-          onPress={handleLogin}
-        />
-        <AppButton
-          backgroundColor="#00D7FF"
-          textColor="black"
-          text="Register"
-          onPress={handleSignUp}
-        />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#0096FF"
+            textColor="#72FFFF"
+            text="Log In"
+            onPress={handleLogin}
+          />
+        </View>
+        <View>
+          <AppButton
+            backgroundColor="#00D7FF"
+            textColor="black"
+            text="Register"
+            onPress={handleSignUp}
+          />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -123,18 +127,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.border,
     width: "100%",
-    padding: 8,
     color: Colors.text,
     backgroundColor: Colors.inputBackground,
     fontFamily: "poppins-regular",
-    padding: 16,
+    padding: 10,
     borderRadius: 6,
     marginTop: 10,
     fontSize: 18,
   },
-  buttonContainer: {
-    flexDirection: "column",
+  buttonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
     width: "90%",
+  },
+  buttonContainer: {
+    marginRight: 20,
   },
 });
