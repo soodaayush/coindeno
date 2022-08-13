@@ -162,7 +162,7 @@ const AddTickerScreen = () => {
         <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor="#EB1D36"
-            text="> Back"
+            text="Back"
             textColor={Colors.text}
             onPress={goBackToHomePage}
           />
@@ -170,7 +170,7 @@ const AddTickerScreen = () => {
         <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor="#377D71"
-            text="+"
+            text="Save"
             textColor={Colors.text}
             onPress={addTicker}
           />
@@ -206,23 +206,19 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     paddingTop: 40,
   },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
   tickersList: {
     flex: 5,
-    paddingTop: 10,
-    width: "95%",
+    width: "90%",
   },
   buttonsContainer: {
     marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "95%",
+    width: "90%",
+  },
+  buttonContainer: {
+    width: 75,
   },
 });
 
