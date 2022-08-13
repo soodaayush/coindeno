@@ -234,18 +234,22 @@ const HomeScreen = () => {
       <StatusBar style="light" />
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <AppButton
-            backgroundColor="#1F4690"
-            textColor={Colors.text}
-            onPress={redirectToSettingsPage}
-            settingImage={true}
-          />
-          <AppButton
-            backgroundColor="#EB1D36"
-            text="Log Out"
-            textColor={Colors.text}
-            onPress={handleSignOut}
-          />
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#1F4690"
+              text="Settings"
+              textColor={Colors.text}
+              onPress={redirectToSettingsPage}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#EB1D36"
+              text="Log Out"
+              textColor={Colors.text}
+              onPress={handleSignOut}
+            />
+          </View>
         </View>
         <View style={styles.addTickerContainer}>
           <AppButton
@@ -295,6 +299,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "90%",
+    marginTop: 20,
+  },
+  buttonContainer: {
+    width: 100,
   },
   text: {
     color: Colors.text,
@@ -305,7 +313,7 @@ const styles = StyleSheet.create({
   },
   tickersContainer: {
     flex: 5,
-    paddingTop: 10,
     width: "90%",
+    
   },
 });

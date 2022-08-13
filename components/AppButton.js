@@ -35,12 +35,6 @@ const AppButton = (props) => {
         onPress={props.onPress}
         android_ripple={{ color: Colors.androidRipple }}
       >
-        {props.settingImage && (
-          <Image
-            source={require("../assets/settings-icon.png")}
-            style={{ height: 30, width: 30 }}
-          />
-        )}
         {props.text && (
           <Text
             style={{

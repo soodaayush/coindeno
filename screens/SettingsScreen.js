@@ -68,7 +68,7 @@ const SettingsScreen = () => {
       }
     });
 
-    alert("Settings Saved!");
+    redirectToHomePage();
   }
 
   async function getCurrencySettingsFromDatabase() {
@@ -121,18 +121,22 @@ const SettingsScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <View style={styles.header}>
-        <AppButton
-          backgroundColor="#EB1D36"
-          text="Back"
-          textColor={Colors.text}
-          onPress={redirectToHomePage}
-        />
-        <AppButton
-          backgroundColor="#377D71"
-          text="Save"
-          textColor={Colors.text}
-          onPress={saveSettings}
-        />
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#EB1D36"
+            text="Back"
+            textColor={Colors.text}
+            onPress={redirectToHomePage}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <AppButton
+            backgroundColor="#377D71"
+            text="Save"
+            textColor={Colors.text}
+            onPress={saveSettings}
+          />
+        </View>
       </View>
       <Text style={styles.pageHeader}>Settings</Text>
       <View style={styles.setting}>
@@ -166,12 +170,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 20,
     width: "90%",
+  },
+  buttonContainer: {
+    width: 75,
   },
   pageHeader: {
     fontSize: 45,
     color: Colors.textHeader,
-    marginBottom: 20,
     fontFamily: "poppins-medium",
   },
   text: {

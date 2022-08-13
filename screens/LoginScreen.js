@@ -78,6 +78,7 @@ const LoginScreen = () => {
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          autoFocus
         />
         <TextInput
           placeholder="Password"
@@ -98,7 +99,7 @@ const LoginScreen = () => {
             onPress={handleLogin}
           />
         </View>
-        <View>
+        <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor="#00D7FF"
             textColor="black"
@@ -143,6 +144,8 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   buttonContainer: {
-    marginRight: 20,
+    width: "47%",
+    marginRight: 10,
+    marginLeft: 10,
   },
 });
