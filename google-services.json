@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:84723869958:android:e7c3521bd475cae3d51687",
+        "mobilesdk_app_id": "1:84723869958:android:e051dd08373812d5d51687",
         "android_client_info": {
-          "package_name": "com.reactnativefirebase"
+          "package_name": "com.coindeno.coindenoapp"
         }
       },
       "oauth_client": [
@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "84723869958-j8sc10g6sekg60jhnuvgptec3fkh91sk.apps.googleusercontent.com",
+              "client_id": "84723869958-73mu57sci8gmd9koa62etc0jcilij4ko.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.reactnativefirebase"
+                "bundle_id": "com.coindeno.coindenoapp"
               }
             }
           ]
