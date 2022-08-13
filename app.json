@@ -17,13 +17,13 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "1.0.0",
-      "bundleIdentifier": "com.reactnativefirebase",
+      "bundleIdentifier": "com.coindeno.coindenoapp",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
       "versionCode": "1",
-      "package": "com.reactnativefirebase",
+      "package": "com.coindeno.coindenoapp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
