@@ -1,22 +1,28 @@
-import { useNavigation } from "@react-navigation/core";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  TextInput,
   Image,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 
 import { auth } from "../firebase/config";
 import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/core";
+
+import configData from "../config.json";
+
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 import AppButton from "../components/AppButton";
 
 import Colors from "../constants/colors";
 
-const LoginScreen = () => {
+const AccountRegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,44 +30,38 @@ const LoginScreen = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
+      if (user.emailVerified) {
         navigation.replace("Home");
       }
     });
 
+    console.clear();
+
     return unsubscribe;
   }, []);
 
-  function handleSignUp() {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
+  async function handleSignUp() {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        let user = auth.currentUser;
+
+        const actionCodeSettings = {
+          url: `${configData.BASE_URL}/sign-in/?email=${user.email}`,
+        };
+
+        sendEmailVerification(auth.currentUser, actionCodeSettings).then(() => {
+          alert("Verification link has been sent to your email");
+        });
       })
       .catch((error) => alert(error.message));
   }
 
-  function handleLogin() {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-      })
-      .catch((error) => alert(error.message));
+  function redirectToAccountLoginRegisterScreen() {
+    navigation.replace("AccountLoginRegister");
   }
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1,
-        paddingTop: 50,
-        paddingHorizontal: 16,
-        backgroundColor: Colors.background,
-      }}
-      behavior="padding"
-    >
+    <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="light" />
       <Image
         source={require("../assets/icon.png")}
@@ -93,16 +93,16 @@ const LoginScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#0096FF"
-            textColor="#72FFFF"
-            text="Log In"
-            onPress={handleLogin}
+            backgroundColor="#00D7FF"
+            textColor="black"
+            text="Back"
+            onPress={redirectToAccountLoginRegisterScreen}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#00D7FF"
-            textColor="black"
+            backgroundColor="#0096FF"
+            textColor="#231955"
             text="Register"
             onPress={handleSignUp}
           />
@@ -112,14 +112,14 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
-
 const styles = StyleSheet.create({
-  pageHeader: {
-    fontSize: 45,
-    color: Colors.textHeader,
-    marginBottom: 20,
-    fontFamily: "poppins-medium",
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.background,
   },
   inputContainer: {
     width: "90%",
@@ -149,3 +149,5 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
+
+export default AccountRegisterScreen;

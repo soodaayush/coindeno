@@ -6,7 +6,9 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
 import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
+import AccountLoginRegisterScreen from "./screens/AccountLoginRegisterScreen";
+import AccountLoginScreen from "./screens/AccountLoginScreen";
+import AccountRegisterScreen from "./screens/AccountRegisterScreen";
 import AddTickerScreen from "./screens/AddTickerScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
@@ -36,8 +38,18 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen
           options={{ headerShown: false }}
-          name="Login"
-          component={LoginScreen}
+          name="AccountLoginRegister"
+          component={AccountLoginRegisterScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AccountLogin"
+          component={AccountLoginScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="AccountRegister"
+          component={AccountRegisterScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
