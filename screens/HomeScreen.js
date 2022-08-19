@@ -201,7 +201,7 @@ const HomeScreen = () => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login");
+        navigation.replace("AccountLoginRegister");
       })
       .catch((error) => alert(error.message));
   }
@@ -314,6 +314,5 @@ const styles = StyleSheet.create({
   tickersContainer: {
     flex: 5,
     width: "90%",
-    
   },
 });
