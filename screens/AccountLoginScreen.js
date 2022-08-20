@@ -36,9 +36,11 @@ const AccountLoginScreen = () => {
   function handleLogin() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        if (!auth.currentUser.emailVerified) {
+        if (!auth.currentUser?.emailVerified) {
           alert("Please verify your email!");
           return;
+        } else {
+          navigation.replace("Home");
         }
 
         const user = userCredentials.user;
@@ -51,7 +53,7 @@ const AccountLoginScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <StatusBar style="light" />
       <Image
         source={require("../assets/icon.png")}
