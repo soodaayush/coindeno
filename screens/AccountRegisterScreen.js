@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 
 import { auth } from "../firebase/config";
@@ -35,8 +36,6 @@ const AccountRegisterScreen = () => {
       }
     });
 
-    console.clear();
-
     return unsubscribe;
   }, []);
 
@@ -50,7 +49,18 @@ const AccountRegisterScreen = () => {
         };
 
         sendEmailVerification(auth.currentUser, actionCodeSettings).then(() => {
-          alert("Verification link has been sent to your email");
+          Alert.alert(
+            "Alert",
+            "A verification link has been sent to your email. If you don't see the verification email in a few minutes, please check your spam or junk folder.",
+            [
+              {
+                text: "Ok",
+                onPress: () => {
+                  navigation.replace("AccountLoginRegister");
+                },
+              },
+            ]
+          );
         });
       })
       .catch((error) => alert(error.message));
@@ -61,7 +71,7 @@ const AccountRegisterScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <StatusBar style="light" />
       <Image
         source={require("../assets/icon.png")}
