@@ -265,6 +265,7 @@ const HomeScreen = () => {
             refreshControl={
               <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
             }
+            initialNumToRender={7}
             renderItem={(tickerData) => {
               return (
                 <TickerItem

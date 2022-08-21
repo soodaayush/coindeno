@@ -31,8 +31,10 @@ const AccountRegisterScreen = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user.emailVerified) {
-        navigation.replace("Home");
+      if (user !== null) {
+        if (user.emailVerified) {
+          navigation.replace("Home");
+        }
       }
     });
 

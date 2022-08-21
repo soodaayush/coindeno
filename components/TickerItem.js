@@ -1,7 +1,8 @@
-import { memo } from "react";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 
 import Colors from "../constants/colors";
+
+import CachedImage from "react-native-expo-cached-image";
 
 function TickerItem(props) {
   return (
@@ -14,7 +15,7 @@ function TickerItem(props) {
         }
       >
         <View style={styles.infoView}>
-          <Image style={styles.image} source={{ uri: props.logo }} />
+          <CachedImage style={styles.image} source={{ uri: props.logo }} />
           <Text style={styles.tickersText}>{props.name}</Text>
         </View>
         <View style={styles.infoView}>
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(TickerItem);
+export default TickerItem;

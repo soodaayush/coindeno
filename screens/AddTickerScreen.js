@@ -179,6 +179,7 @@ const AddTickerScreen = () => {
       <View style={styles.tickersList}>
         <FlatList
           data={tickersData}
+          initialNumToRender={7}
           renderItem={(tickerData) => {
             return (
               <AddTickerItem
