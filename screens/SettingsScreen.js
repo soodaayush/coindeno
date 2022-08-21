@@ -13,6 +13,10 @@ import configData from "../config.json";
 
 import Colors from "../constants/colors";
 
+import TickerDataService from "../api/TickerData";
+import TickerDatabaseService from "../api/TickerDatabase";
+import SettingsDatabaseService from "../api/SettingsDatabase";
+
 const SettingsScreen = () => {
   const navigation = useNavigation();
 
@@ -33,14 +37,16 @@ const SettingsScreen = () => {
   ];
 
   useEffect(() => {
-    getCurrencySettingsFromDatabase().then((data) => {
-      setIsLoading(false);
+    SettingsDatabaseService.getInstance()
+      .getCurrencyFromDatabase(auth.currentUser?.uid)
+      .then((data) => {
+        setIsLoading(false);
 
-      for (let key in data) {
-        let currency = data[key].currencyLabel;
-        setCurrencyLabel(currency);
-      }
-    });
+        for (let key in data) {
+          let currency = data[key].currencyLabel;
+          setCurrencyLabel(currency);
+        }
+      });
   }, []);
 
   function redirectToHomePage() {
@@ -58,54 +64,26 @@ const SettingsScreen = () => {
       currencyLabel: currencyDropdownValue.label,
     };
 
-    getCurrencySettingsFromDatabase().then((data) => {
-      if (data === null || data === undefined) {
-        saveCurrencySettingsToDatabase(currency);
-      } else {
-        for (let key in data) {
-          editCurrencySettings(currency, key);
+    SettingsDatabaseService.getInstance()
+      .getCurrencyFromDatabase(auth.currentUser?.uid)
+      .then((data) => {
+        if (data === null || data === undefined) {
+          SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
+            auth.currentUser?.uid,
+            currency
+          );
+        } else {
+          for (let key in data) {
+            SettingsDatabaseService.getInstance().editCurrencySettings(
+              currency,
+              auth.currentUser?.uid,
+              key
+            );
+          }
         }
-      }
-    });
+      });
 
     redirectToHomePage();
-  }
-
-  async function getCurrencySettingsFromDatabase() {
-    try {
-      let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
-
-      let response = await fetch(url);
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function saveCurrencySettingsToDatabase(currency) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(currency),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.json();
-  }
-
-  async function editCurrencySettings(currency, id) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency/${id}.json`;
-
-    return await fetch(url, {
-      method: "PUT",
-      body: JSON.stringify(currency),
-    });
   }
 
   if (isLoading) {
