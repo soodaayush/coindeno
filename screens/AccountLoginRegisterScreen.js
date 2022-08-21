@@ -14,8 +14,10 @@ const LoginScreen = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user.emailVerified) {
-        navigation.replace("Home");
+      if (user !== null) {
+        if (user.emailVerified) {
+          navigation.replace("Home");
+        }
       }
     });
 
@@ -47,7 +49,6 @@ const LoginScreen = () => {
         source={require("../assets/icon.png")}
         style={{ height: 250, width: 250 }}
       />
-
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton

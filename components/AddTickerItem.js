@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Colors from "../constants/colors";
 
+import CachedImage from "react-native-expo-cached-image";
+
 const AddTickerItem = (props) => {
   return (
     <View style={styles.tickerListItem}>
@@ -20,7 +22,11 @@ const AddTickerItem = (props) => {
             style={{ marginLeft: 12 }}
             onPress={props.onAddTickerToList.bind(this, props.id)}
           />
-          <Image style={styles.image} source={{ uri: props.logo }} />
+          <CachedImage
+            isBackground
+            style={styles.image}
+            source={{ uri: props.logo }}
+          />
           <Text style={styles.tickersText}>{props.name}</Text>
         </View>
       </Pressable>
@@ -45,6 +51,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 15,
     padding: 10,
+    fontFamily: "poppins-regular",
   },
   infoView: {
     flexDirection: "row",
@@ -60,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(AddTickerItem);
+export default AddTickerItem;
