@@ -8,10 +8,12 @@ import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
 import AddTickerItem from "../components/AddTickerItem";
 
-import configData from "../config.json";
 import { auth } from "../firebase/config";
 
 import Colors from "../constants/colors";
+
+import TickerDataService from "../api/TickerData";
+import TickerDatabaseService from "../api/TickerDatabase";
 
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
@@ -28,59 +30,32 @@ const AddTickerScreen = () => {
   }, []);
 
   function printData() {
-    getTickers().then((tickerData) => {
-      setIsLoading(false);
+    TickerDataService.getInstance()
+      .getTop250Tickers()
+      .then((tickerData) => {
+        setIsLoading(false);
 
-      let tickers = getTickersFromDatabase();
+        TickerDatabaseService.getInstance()
+          .getTickersFromDatabase(auth.currentUser?.uid)
+          .then((data) => {
+            for (let key in data) {
+              let ticker = data[key].name;
 
-      tickers.then((data) => {
-        for (let key in data) {
-          let ticker = data[key].name;
+              tickerArray.push(ticker);
+            }
 
-          tickerArray.push(ticker);
-        }
+            tickerData.forEach((element) => {
+              tickerDataList.push(element);
+            });
 
-        tickerData.forEach((element) => {
-          tickerDataList.push(element);
-        });
+            tickerDataList = tickerDataList.filter(
+              (td) => !tickerArray.includes(td.id)
+            );
+            tickerDataList.sort((a, b) => a.name.localeCompare(b.name));
 
-        tickerDataList = tickerDataList.filter(
-          (td) => !tickerArray.includes(td.id)
-        );
-        tickerDataList.sort((a, b) => a.name.localeCompare(b.name));
-
-        setTickers(tickerDataList);
+            setTickers(tickerDataList);
+          });
       });
-    });
-  }
-
-  async function getTickers() {
-    try {
-      let response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=cad&order=market_cap_desc&per_page=250&page=1&sparkline=false`
-      );
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function saveTickerToDatabase(ticker) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers.json`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(ticker),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    let responseJson = await response.json();
-    return responseJson;
   }
 
   function addTicker() {
@@ -96,7 +71,10 @@ const AddTickerScreen = () => {
         name: ticker,
       };
 
-      let p = saveTickerToDatabase(tickerObj);
+      let p = TickerDatabaseService.getInstance().saveTickerToDatabase(
+        auth.currentUser?.uid,
+        tickerObj
+      );
       promiseArray.push(p);
     });
 
@@ -130,20 +108,6 @@ const AddTickerScreen = () => {
 
   function goBackToHomePage() {
     navigation.replace("Home");
-  }
-
-  async function getTickersFromDatabase() {
-    try {
-      let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers.json`;
-
-      let response = await fetch(url);
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   if (isLoading) {

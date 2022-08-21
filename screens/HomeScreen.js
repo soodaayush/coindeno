@@ -20,7 +20,9 @@ import Loading from "../components/Loading";
 import { auth } from "../firebase/config";
 import { useNavigation } from "@react-navigation/core";
 
-import configData from "../config.json";
+import TickerDataService from "../api/TickerData";
+import TickerDatabaseService from "../api/TickerDatabase";
+import SettingsDatabaseService from "../api/SettingsDatabase";
 
 import Colors from "../constants/colors";
 
@@ -39,140 +41,77 @@ const HomeScreen = () => {
   function printData() {
     let tickerArray = [];
 
-    let tickers = getTickersFromDatabase();
+    TickerDatabaseService.getInstance()
+      .getTickersFromDatabase(auth.currentUser?.uid)
+      .then((data) => {
+        setIsLoading(false);
 
-    let currency = getCurrencyFromDatabase();
+        if (data === null) {
+          setTickerData([]);
+        }
 
-    tickers.then((data) => {
-      setIsLoading(false);
-
-      if (data === null) {
-        setTickerData([]);
-      }
-
-      for (let key in data) {
-        let ticker = {
-          key: key,
-          name: data[key].name,
-        };
-
-        tickerArray.push(ticker);
-      }
-
-      let tickersArr = [];
-
-      currency.then((currencyData) => {
-        let currency;
-
-        if (currencyData === null) {
-          currency = "cad";
-          setCurrency(currency);
-
-          let currency = {
-            currency: currency,
-            currencyLabel: "CAD - Canadian Dollar",
+        for (let key in data) {
+          let ticker = {
+            key: key,
+            name: data[key].name,
           };
 
-          saveCurrencyToDatabase(currency);
-        } else {
-          for (let key in currencyData) {
-            currency = currencyData[key].currency;
-            setCurrency(currency);
-          }
+          tickerArray.push(ticker);
         }
 
-        for (let i = 0; i < tickerArray.length; i++) {
-          let tickerInfo = getTickerData(tickerArray[i].name);
+        let tickersArr = [];
 
-          tickerInfo.then((results) => {
-            if (results.error) {
-              alert(results.error);
-              return;
+        SettingsDatabaseService.getInstance()
+          .getCurrencyFromDatabase(auth.currentUser.uid)
+          .then((currencyData) => {
+            let currency;
+
+            if (currencyData === null) {
+              currency = "cad";
+              setCurrency(currency);
+
+              let currency = {
+                currency: currency,
+                currencyLabel: "CAD - Canadian Dollar",
+              };
+
+              SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
+                auth.currentUser?.uid,
+                currency
+              );
+            } else {
+              for (let key in currencyData) {
+                currency = currencyData[key].currency;
+                setCurrency(currency);
+              }
             }
 
-            let ticker = {
-              id: results.id,
-              key: tickerArray[i].key,
-              name: results.name,
-              image: results.image.large,
-              price: results.market_data.current_price[currency],
-            };
+            for (let i = 0; i < tickerArray.length; i++) {
+              TickerDataService.getInstance()
+                .getTickerData(tickerArray[i].name)
+                .then((results) => {
+                  if (results.error) {
+                    alert(results.error);
+                    return;
+                  }
 
-            tickersArr.push(ticker);
+                  let ticker = {
+                    id: results.id,
+                    key: tickerArray[i].key,
+                    name: results.name,
+                    image: results.image.large,
+                    price: results.market_data.current_price[currency],
+                  };
 
-            tickersArr.sort((a, b) => a.name.localeCompare(b.name));
+                  tickersArr.push(ticker);
 
-            setTickerData(tickersArr);
+                  tickersArr.sort((a, b) => a.name.localeCompare(b.name));
+
+                  setTickerData(tickersArr);
+                });
+            }
           });
-        }
       });
-    });
-  }
-
-  async function getTickersFromDatabase() {
-    try {
-      let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers.json`;
-
-      let response = await fetch(url);
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function getCurrencyFromDatabase() {
-    try {
-      let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
-
-      let response = await fetch(url);
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function saveCurrencyToDatabase(currency) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/settings/currency.json`;
-
-    let response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(currency),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response.json();
-  }
-
-  async function getTickerData(enteredText) {
-    try {
-      let response = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${enteredText
-          .toString()
-          .toLowerCase()}`
-      );
-
-      let responseJson = await response.json();
-
-      return responseJson;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function deleteTickerFromDatabase(key) {
-    let url = `${configData.BASE_URL}/${auth.currentUser?.uid}/tickers/${key}.json`;
-
-    return await fetch(url, {
-      method: "DELETE",
-    });
   }
 
   function deleteTicker(key) {
@@ -184,9 +123,11 @@ const HomeScreen = () => {
           text: "Yes",
           style: "destructive",
           onPress: () => {
-            deleteTickerFromDatabase(key).then(() => {
-              printData();
-            });
+            TickerDatabaseService.getInstance()
+              .deleteTickerFromDatabase(auth.currentUser?.uid, key)
+              .then(() => {
+                printData();
+              });
           },
         },
         {
