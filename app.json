@@ -11,6 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#231955"
     },
+    "jsEngine": "hermes",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -22,7 +23,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": "2",
+      "versionCode": 2,
       "package": "com.coindeno.coindenoapp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
@@ -32,7 +33,6 @@
       }
     },
     "plugins": [
-      "@react-native-firebase/app",
       [
         "expo-build-properties",
         {
