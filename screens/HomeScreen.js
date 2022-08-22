@@ -165,6 +165,32 @@ const HomeScreen = () => {
     return (
       <View style={styles.container}>
         <StatusBar style="light" />
+        <View style={styles.header}>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#1F4690"
+              text="Settings"
+              textColor={Colors.text}
+              onPress={redirectToSettingsPage}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#EB1D36"
+              text="Log Out"
+              textColor={Colors.text}
+              onPress={handleSignOut}
+            />
+          </View>
+        </View>
+        <View style={styles.addTickerContainer}>
+          <AppButton
+            backgroundColor="#377D71"
+            text="Add Ticker"
+            textColor="#FFE5B4"
+            onPress={redirectToAddTickerPage}
+          />
+        </View>
         <Loading />
       </View>
     );

@@ -114,6 +114,24 @@ const AddTickerScreen = () => {
     return (
       <View style={styles.container}>
         <StatusBar style="light" />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#EB1D36"
+              text="Back"
+              textColor={Colors.text}
+              onPress={goBackToHomePage}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#377D71"
+              text="Save"
+              textColor={Colors.text}
+              onPress={addTicker}
+            />
+          </View>
+        </View>
         <Loading />
       </View>
     );

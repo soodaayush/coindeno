@@ -9,12 +9,8 @@ import { auth } from "../firebase/config";
 import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
 
-import configData from "../config.json";
-
 import Colors from "../constants/colors";
 
-import TickerDataService from "../api/TickerData";
-import TickerDatabaseService from "../api/TickerDatabase";
 import SettingsDatabaseService from "../api/SettingsDatabase";
 
 const SettingsScreen = () => {
@@ -90,6 +86,24 @@ const SettingsScreen = () => {
     return (
       <View style={styles.container}>
         <StatusBar style="light" />
+        <View style={styles.header}>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#EB1D36"
+              text="Back"
+              textColor={Colors.text}
+              onPress={redirectToHomePage}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <AppButton
+              backgroundColor="#377D71"
+              text="Save"
+              textColor={Colors.text}
+              onPress={saveSettings}
+            />
+          </View>
+        </View>
         <Loading />
       </View>
     );
