@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
-import { Dropdown } from "react-native-element-dropdown";
+import DropDownPicker from "react-native-dropdown-picker";
 
 import { auth } from "../firebase/config";
 
@@ -16,11 +16,12 @@ import SettingsDatabaseService from "../api/SettingsDatabase";
 const SettingsScreen = () => {
   const navigation = useNavigation();
 
+  const [open, setOpen] = useState(false);
   const [currencyDropdownValue, setCurrencyDropdownValue] = useState("");
-  const [currencyLabel, setCurrencyLabel] = useState("");
+  const [currencyItem, setCurrencyItem] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const currencyData = [
+  const [items, setItems] = useState([
     { label: "CAD - Canadian Dollar", value: "cad" },
     { label: "EUR - Euro", value: "eur" },
     { label: "GBP - British Pound Sterling", value: "gbp" },
@@ -30,7 +31,7 @@ const SettingsScreen = () => {
     { label: "CNY - Chinese Yuan", value: "cny" },
     { label: "RUB - Russian Ruble", value: "rub" },
     { label: "KRW - South Korean Won", value: "krw" },
-  ];
+  ]);
 
   useEffect(() => {
     SettingsDatabaseService.getInstance()
@@ -39,8 +40,8 @@ const SettingsScreen = () => {
         setIsLoading(false);
 
         for (let key in data) {
-          let currency = data[key].currencyLabel;
-          setCurrencyLabel(currency);
+          let currency = data[key].currency;
+          setCurrencyDropdownValue(currency);
         }
       });
   }, []);
@@ -50,14 +51,14 @@ const SettingsScreen = () => {
   }
 
   function saveSettings() {
-    if (currencyDropdownValue.label === undefined) {
+    if (currencyItem.label === undefined || currencyItem.label === null) {
       alert("Please make edits to your settings to save them!");
       return;
     }
 
     let currency = {
-      currency: currencyDropdownValue.value,
-      currencyLabel: currencyDropdownValue.label,
+      currency: currencyItem.value,
+      currencyLabel: currencyItem.label,
     };
 
     SettingsDatabaseService.getInstance()
@@ -133,17 +134,20 @@ const SettingsScreen = () => {
       <Text style={styles.pageHeader}>Settings</Text>
       <View style={styles.setting}>
         <Text style={styles.settingText}>Preferred Currency:</Text>
-        <Dropdown
-          data={currencyData}
+        <DropDownPicker
+          items={items}
+          setItems={setItems}
+          open={open}
+          setOpen={setOpen}
           style={styles.dropdown}
-          selectedTextStyle={styles.selectedTextStyle}
-          labelField="label"
-          valueField="value"
-          placeholder={currencyLabel}
+          setValue={setCurrencyDropdownValue}
           value={currencyDropdownValue}
-          onChange={(value) => setCurrencyDropdownValue(value)}
-          fontFamily="poppins-regular"
-          placeholderStyle={styles.text}
+          onSelectItem={(value) => {
+            setCurrencyItem(value);
+          }}
+          theme="DARK"
+          textStyle={{ fontFamily: "poppins-regular" }}
+          labelStyle={{ fontFamily: "poppins-regular" }}
         />
       </View>
     </SafeAreaView>
@@ -188,18 +192,13 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 20,
     fontFamily: "poppins-regular",
+    marginBottom: 20,
   },
   dropdown: {
-    marginTop: 20,
     borderColor: Colors.border,
-    borderWidth: 1,
-    borderRadius: 10,
     paddingLeft: 10,
     paddingBottom: 5,
     paddingTop: 5,
-  },
-  selectedTextStyle: {
-    color: Colors.text,
     fontFamily: "poppins-regular",
   },
 });
