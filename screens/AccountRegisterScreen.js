@@ -105,7 +105,7 @@ const AccountRegisterScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#00D7FF"
+            backgroundColor={Colors.border}
             textColor="black"
             text="Back"
             onPress={redirectToAccountLoginRegisterScreen}
@@ -113,8 +113,8 @@ const AccountRegisterScreen = () => {
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#0096FF"
-            textColor="#231955"
+            backgroundColor="#377D71"
+            textColor="white"
             text="Register"
             onPress={handleSignUp}
           />

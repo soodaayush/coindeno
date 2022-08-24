@@ -52,7 +52,7 @@ const LoginScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#0096FF"
+            backgroundColor={Colors.border}
             textColor="#231955"
             text="Log In"
             onPress={redirectToLoginPage}
@@ -60,8 +60,8 @@ const LoginScreen = () => {
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#00D7FF"
-            textColor="black"
+            backgroundColor="#377D71"
+            textColor="white"
             text="Register"
             onPress={redirectToRegisterPage}
           />
