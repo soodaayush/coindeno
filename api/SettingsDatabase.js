@@ -45,6 +45,43 @@ export class SettingsDatabaseService extends Component {
       body: JSON.stringify(currency),
     });
   }
+
+  async getThemeFromDatabase(id) {
+    try {
+      let url = `${configData.BASE_URL}/${id}/settings/theme.json`;
+
+      let response = await fetch(url);
+
+      let responseJson = await response.json();
+
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async saveThemeToDatabase(id, theme) {
+    let url = `${configData.BASE_URL}/${id}/settings/theme.json`;
+
+    let response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(theme),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.json();
+  }
+
+  async editThemeSettings(theme, userId, id) {
+    let url = `${configData.BASE_URL}/${userId}/settings/theme/${id}.json`;
+
+    return await fetch(url, {
+      method: "PUT",
+      body: JSON.stringify(theme),
+    });
+  }
 }
 
 export default SettingsDatabaseService;

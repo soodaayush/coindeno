@@ -1,5 +1,4 @@
-import { memo } from "react";
-import { StyleSheet, Text, View, Pressable, Image } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Colors from "../constants/colors";
@@ -8,7 +7,18 @@ import CachedImage from "react-native-expo-cached-image";
 
 const AddTickerItem = (props) => {
   return (
-    <View style={styles.tickerListItem}>
+    <View
+      style={{
+        marginTop: 5,
+        marginBottom: 1,
+        borderWidth: 1,
+        borderColor:
+          props.theme === "dark" ? Colors.borderDark : Colors.borderLight,
+        backgroundColor:
+          props.theme === "dark" ? Colors.tickerBackgroundDark : "",
+        borderRadius: 10,
+      }}
+    >
       <Pressable
         style={({ pressed }) =>
           pressed ? [styles.ticker, styles.pressed] : styles.ticker
@@ -17,8 +27,12 @@ const AddTickerItem = (props) => {
         <View style={styles.infoView}>
           <BouncyCheckbox
             size={30}
-            unfillColor={Colors.text}
-            fillColor={Colors.background}
+            unfillColor={
+              props.theme === "dark" ? Colors.textDark : Colors.borderLight
+            }
+            fillColor={
+              props.theme === "dark" ? Colors.backgroundDark : Colors.borderDark
+            }
             style={{ marginLeft: 12 }}
             onPress={props.onAddTickerToList.bind(this, props.id)}
           />
@@ -27,7 +41,17 @@ const AddTickerItem = (props) => {
             style={styles.image}
             source={{ uri: props.logo }}
           />
-          <Text style={styles.tickersText}>{props.name}</Text>
+          <Text
+            style={{
+              color:
+                props.theme === "dark" ? Colors.textDark : Colors.textLight,
+              fontSize: 15,
+              padding: 10,
+              fontFamily: "poppins-regular",
+            }}
+          >
+            {props.name}
+          </Text>
         </View>
       </Pressable>
     </View>
@@ -35,23 +59,9 @@ const AddTickerItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  tickerListItem: {
-    marginTop: 5,
-    marginBottom: 1,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.tickerBackground,
-    borderRadius: 10,
-  },
   ticker: {
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-  tickersText: {
-    color: Colors.text,
-    fontSize: 15,
-    padding: 10,
-    fontFamily: "poppins-regular",
   },
   infoView: {
     flexDirection: "row",

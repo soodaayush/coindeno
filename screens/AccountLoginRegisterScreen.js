@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView, Image } from "react-native";
 
 import { auth } from "../firebase/config";
@@ -9,10 +9,44 @@ import AppButton from "../components/AppButton";
 
 import Colors from "../constants/colors";
 
+import SettingsDatabaseService from "../api/SettingsDatabase";
+
 const LoginScreen = () => {
   const navigation = useNavigation();
 
+  const [theme, setTheme] = useState("");
+
   useEffect(() => {
+    if (auth.currentUser) {
+      SettingsDatabaseService.getInstance()
+        .getThemeFromDatabase(auth.currentUser?.uid)
+        .then((themeData) => {
+          let theme;
+
+          if (themeData === null) {
+            theme = "dark";
+            setTheme(theme);
+
+            let themeObj = {
+              theme: theme,
+              themeLabel: "Dark",
+            };
+
+            SettingsDatabaseService.getInstance().saveThemeToDatabase(
+              auth.currentUser?.uid,
+              themeObj
+            );
+          } else {
+            for (let key in themeData) {
+              theme = themeData[key].theme;
+              setTheme(theme);
+            }
+          }
+        });
+    } else {
+      setTheme("dark");
+    }
+
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user !== null) {
         if (user.emailVerified) {
@@ -40,28 +74,37 @@ const LoginScreen = () => {
         flex: 1,
         paddingTop: 50,
         paddingHorizontal: 16,
-        backgroundColor: Colors.background,
+        backgroundColor:
+          theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
       }}
       behavior="padding"
     >
-      <StatusBar style="light" />
-      <Image
-        source={require("../assets/icon.png")}
-        style={{ height: 250, width: 250 }}
-      />
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
+      {theme === "dark" && (
+        <Image
+          source={require("../assets/icon.png")}
+          style={{ height: 250, width: 250 }}
+        />
+      )}
+      {theme === "light" && (
+        <Image
+          source={require("../assets/iconLight.png")}
+          style={{ height: 250, width: 250 }}
+        />
+      )}
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={Colors.border}
-            textColor="#231955"
+            backgroundColor={theme === "dark" ? Colors.borderDark : ""}
+            textColor={theme === "dark" ? "#231955" : "black"}
             text="Log In"
             onPress={redirectToLoginPage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#377D71"
-            textColor="white"
+            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Register"
             onPress={redirectToRegisterPage}
           />

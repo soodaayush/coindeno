@@ -1,12 +1,16 @@
 const Colors = {
-  background: "#231955",
-  tickerBackground: "#1F4690",
-  inputBackground: "#1F4690",
-  settingBackground: "#1F4690",
-  androidRipple: "#1F4690",
-  text: "#FFE5B4",
-  textHeader: "#E8AA42",
-  border: "#E8AA42",
+  backgroundDark: "#231955",
+  tickerBackgroundDark: "#1F4690",
+  inputBackgroundDark: "#1F4690",
+  settingBackgroundDark: "#1F4690",
+  androidRippleDark: "#1F4690",
+  textDark: "#FFE5B4",
+  textHeaderDark: "#E8AA42",
+  borderDark: "#E8AA42",
+  backgroundLight: "#FFF",
+  textLight: "black",
+  borderLight: "#EAE3D2",
+  settingBackgroundLight: "#FFF",
 };
 
 export default Colors;
