@@ -1,4 +1,4 @@
-import { Text, View, Pressable, Image } from "react-native";
+import { Text, View, Pressable } from "react-native";
 
 import Colors from "../constants/colors";
 
@@ -17,6 +17,11 @@ const AppButton = (props) => {
                   borderRadius: 10,
                   width: "100%",
                   marginBottom: 20,
+                  borderWidth: 1,
+                  borderColor:
+                    props.theme === "dark"
+                      ? Colors.borderDark
+                      : Colors.borderLight,
                 },
                 {
                   opacity: 0.75,
@@ -30,6 +35,11 @@ const AppButton = (props) => {
                 borderRadius: 10,
                 width: "100%",
                 marginBottom: 20,
+                borderWidth: 1,
+                borderColor:
+                  props.theme === "dark"
+                    ? Colors.borderDark
+                    : Colors.borderLight,
               }
         }
         onPress={props.onPress}

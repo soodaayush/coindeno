@@ -14,10 +14,12 @@ import Colors from "../constants/colors";
 
 import TickerDataService from "../api/TickerData";
 import TickerDatabaseService from "../api/TickerDatabase";
+import SettingsDatabaseService from "../api/SettingsDatabase";
 
 const AddTickerScreen = () => {
   const [tickersData, setTickers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [theme, setTheme] = useState("");
   const [selectedTickers, setSelectedTickers] = useState([]);
 
   const navigation = useNavigation();
@@ -34,6 +36,34 @@ const AddTickerScreen = () => {
       .getTop250Tickers()
       .then((tickerData) => {
         setIsLoading(false);
+
+        SettingsDatabaseService.getInstance()
+          .getThemeFromDatabase(auth.currentUser?.uid)
+          .then((themeData) => {
+            setIsLoading(false);
+
+            let theme;
+
+            if (themeData === null) {
+              theme = "dark";
+              setTheme(theme);
+
+              let themeObj = {
+                theme: theme,
+                themeLabel: "Dark",
+              };
+
+              SettingsDatabaseService.getInstance().saveThemeToDatabase(
+                auth.currentUser?.uid,
+                themeObj
+              );
+            } else {
+              for (let key in themeData) {
+                theme = themeData[key].theme;
+                setTheme(theme);
+              }
+            }
+          });
 
         TickerDatabaseService.getInstance()
           .getTickersFromDatabase(auth.currentUser?.uid)
@@ -112,22 +142,33 @@ const AddTickerScreen = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
-        <StatusBar style="light" />
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          paddingLeft: 16,
+          paddingRight: 16,
+          borderBottomWidth: 1,
+          backgroundColor:
+            theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+          paddingTop: 40,
+        }}
+      >
+        <StatusBar style={theme === "light" ? "dark" : "light"} />
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor="#EB1D36"
+              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
               text="Back"
-              textColor={Colors.text}
+              textColor={theme === "dark" ? Colors.textDark : "black"}
               onPress={goBackToHomePage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor="#377D71"
+              backgroundColor={theme === "dark" ? "#377D71" : ""}
               text="Save"
-              textColor={Colors.text}
+              textColor={theme === "dark" ? Colors.textDark : "black"}
               onPress={addTicker}
             />
           </View>
@@ -138,22 +179,33 @@ const AddTickerScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        alignItems: "center",
+        paddingLeft: 16,
+        paddingRight: 16,
+        borderBottomWidth: 1,
+        backgroundColor:
+          theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+        paddingTop: 40,
+      }}
+    >
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#EB1D36"
+            backgroundColor={theme === "dark" ? "#EB1D36" : ""}
             text="Back"
-            textColor={Colors.text}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             onPress={goBackToHomePage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#377D71"
+            backgroundColor={theme === "dark" ? "#377D71" : ""}
             text="Save"
-            textColor={Colors.text}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             onPress={addTicker}
           />
         </View>
@@ -169,6 +221,7 @@ const AddTickerScreen = () => {
                 price={tickerData.item.price}
                 logo={tickerData.item.image}
                 id={tickerData.item.id}
+                theme={theme}
                 onAddTickerToList={addTickerToList}
               />
             );
@@ -180,15 +233,6 @@ const AddTickerScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    paddingLeft: 16,
-    paddingRight: 16,
-    borderBottomWidth: 1,
-    backgroundColor: Colors.background,
-    paddingTop: 40,
-  },
   tickersList: {
     flex: 5,
     width: "90%",

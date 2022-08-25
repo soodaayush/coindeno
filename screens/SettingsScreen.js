@@ -16,12 +16,18 @@ import SettingsDatabaseService from "../api/SettingsDatabase";
 const SettingsScreen = () => {
   const navigation = useNavigation();
 
-  const [open, setOpen] = useState(false);
+  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [currencyDropdownValue, setCurrencyDropdownValue] = useState("");
   const [currencyItem, setCurrencyItem] = useState("");
+
+  const [themeOpen, setThemeOpen] = useState(false);
+  const [themeDropdownValue, setThemeDropdownValue] = useState("");
+  const [themeItem, setThemeItem] = useState("");
+  const [theme, setTheme] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const [items, setItems] = useState([
+  const [currencyItems, setCurrencyItems] = useState([
     { label: "CAD - Canadian Dollar", value: "cad" },
     { label: "EUR - Euro", value: "eur" },
     { label: "GBP - British Pound Sterling", value: "gbp" },
@@ -33,15 +39,30 @@ const SettingsScreen = () => {
     { label: "KRW - South Korean Won", value: "krw" },
   ]);
 
+  const [themeItems, setThemeItems] = useState([
+    { label: "Dark", value: "dark" },
+    { label: "Light", value: "light" },
+  ]);
+
   useEffect(() => {
     SettingsDatabaseService.getInstance()
       .getCurrencyFromDatabase(auth.currentUser?.uid)
       .then((data) => {
-        setIsLoading(false);
-
         for (let key in data) {
           let currency = data[key].currency;
           setCurrencyDropdownValue(currency);
+        }
+      });
+
+    SettingsDatabaseService.getInstance()
+      .getThemeFromDatabase(auth.currentUser?.uid)
+      .then((data) => {
+        setIsLoading(false);
+
+        for (let key in data) {
+          let theme = data[key].theme;
+          setThemeDropdownValue(theme);
+          setTheme(theme);
         }
       });
   }, []);
@@ -51,7 +72,7 @@ const SettingsScreen = () => {
   }
 
   function saveSettings() {
-    if (currencyItem.label === undefined || currencyItem.label === null) {
+    if (currencyItem.label === undefined && themeItem.label === undefined) {
       alert("Please make edits to your settings to save them!");
       return;
     }
@@ -61,24 +82,52 @@ const SettingsScreen = () => {
       currencyLabel: currencyItem.label,
     };
 
-    SettingsDatabaseService.getInstance()
-      .getCurrencyFromDatabase(auth.currentUser?.uid)
-      .then((data) => {
-        if (data === null || data === undefined) {
-          SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
-            auth.currentUser?.uid,
-            currency
-          );
-        } else {
-          for (let key in data) {
-            SettingsDatabaseService.getInstance().editCurrencySettings(
-              currency,
+    let theme = {
+      theme: themeItem.value,
+      themeLabel: themeItem.label,
+    };
+
+    if (currencyItem.label !== undefined) {
+      SettingsDatabaseService.getInstance()
+        .getCurrencyFromDatabase(auth.currentUser?.uid)
+        .then((data) => {
+          if (data === null || data === undefined) {
+            SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
               auth.currentUser?.uid,
-              key
+              currency
             );
+          } else {
+            for (let key in data) {
+              SettingsDatabaseService.getInstance().editCurrencySettings(
+                currency,
+                auth.currentUser?.uid,
+                key
+              );
+            }
           }
-        }
-      });
+        });
+    }
+
+    if (themeItem.label !== undefined) {
+      SettingsDatabaseService.getInstance()
+        .getThemeFromDatabase(auth.currentUser?.uid)
+        .then((data) => {
+          if (data === null || data === undefined) {
+            SettingsDatabaseService.getInstance().saveThemeToDatabase(
+              auth.currentUser?.uid,
+              theme
+            );
+          } else {
+            for (let key in data) {
+              SettingsDatabaseService.getInstance().editThemeSettings(
+                theme,
+                auth.currentUser?.uid,
+                key
+              );
+            }
+          }
+        });
+    }
 
     redirectToHomePage();
   }
@@ -86,21 +135,21 @@ const SettingsScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <StatusBar style="light" />
+        <StatusBar style={theme === "light" ? "dark" : "light"} />
         <View style={styles.header}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor="#EB1D36"
+              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
               text="Back"
-              textColor={Colors.text}
+              textColor={theme === "dark" ? Colors.textDark : "black"}
               onPress={redirectToHomePage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor="#377D71"
+              backgroundColor={theme === "dark" ? "#377D71" : ""}
               text="Save"
-              textColor={Colors.text}
+              textColor={theme === "dark" ? Colors.textDark : "black"}
               onPress={saveSettings}
             />
           </View>
@@ -111,41 +160,140 @@ const SettingsScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+    <SafeAreaView
+      style={{
+        flex: 1,
+        paddingTop: 50,
+        alignItems: "center",
+        paddingHorizontal: 16,
+        backgroundColor:
+          theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+      }}
+    >
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
       <View style={styles.header}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#EB1D36"
+            backgroundColor={theme === "dark" ? "#EB1D36" : ""}
             text="Back"
-            textColor={Colors.text}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             onPress={redirectToHomePage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor="#377D71"
+            backgroundColor={theme === "dark" ? "#377D71" : ""}
             text="Save"
-            textColor={Colors.text}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             onPress={saveSettings}
           />
         </View>
       </View>
-      <Text style={styles.pageHeader}>Settings</Text>
-      <View style={styles.setting}>
-        <Text style={styles.settingText}>Preferred Currency:</Text>
+      <Text
+        style={{
+          fontSize: 45,
+          color: theme === "dark" ? Colors.textHeaderDark : "",
+          fontFamily: "poppins-medium",
+        }}
+      >
+        Settings
+      </Text>
+      <View
+        style={{
+          width: "90%",
+          display: "block",
+          backgroundColor:
+            theme === "dark"
+              ? Colors.settingBackgroundDark
+              : Colors.settingBackgroundLight,
+          borderRadius: 10,
+          padding: 20,
+          marginBottom: 20,
+          borderWidth: 1,
+          borderColor:
+            theme === "dark" ? Colors.borderDark : Colors.borderLight,
+        }}
+      >
+        <Text
+          style={{
+            color: theme === "dark" ? Colors.textDark : Colors.textLight,
+            fontSize: 20,
+            fontFamily: "poppins-regular",
+            marginBottom: 20,
+          }}
+        >
+          Preferred Currency:
+        </Text>
         <DropDownPicker
-          items={items}
-          setItems={setItems}
-          open={open}
-          setOpen={setOpen}
-          style={styles.dropdown}
+          items={currencyItems}
+          setItems={setCurrencyItems}
+          open={currencyOpen}
+          setOpen={setCurrencyOpen}
+          style={{
+            borderColor:
+              theme === "dark" ? Colors.borderDark : Colors.borderLight,
+            paddingLeft: 10,
+            paddingBottom: 5,
+            paddingTop: 5,
+            fontFamily: "poppins-regular",
+          }}
           setValue={setCurrencyDropdownValue}
           value={currencyDropdownValue}
           onSelectItem={(value) => {
             setCurrencyItem(value);
           }}
-          theme="DARK"
+          theme={theme === "dark" ? "DARK" : "LIGHT"}
+          dropDownDirection="TOP"
+          textStyle={{ fontFamily: "poppins-regular" }}
+          labelStyle={{ fontFamily: "poppins-regular" }}
+        />
+      </View>
+      <View
+        style={{
+          width: "90%",
+          display: "block",
+          backgroundColor:
+            theme === "dark"
+              ? Colors.settingBackgroundDark
+              : Colors.settingBackgroundLight,
+          borderRadius: 10,
+          padding: 20,
+          marginBottom: 20,
+          borderWidth: 1,
+          borderColor:
+            theme === "dark" ? Colors.borderDark : Colors.borderLight,
+        }}
+      >
+        <Text
+          style={{
+            color: theme === "dark" ? Colors.textDark : Colors.textLight,
+            fontSize: 20,
+            fontFamily: "poppins-regular",
+            marginBottom: 20,
+          }}
+        >
+          Preferred Theme:
+        </Text>
+        <DropDownPicker
+          items={themeItems}
+          setItems={setThemeItems}
+          open={themeOpen}
+          setOpen={setThemeOpen}
+          style={{
+            borderColor:
+              theme === "dark" ? Colors.borderDark : Colors.borderLight,
+            paddingLeft: 10,
+            paddingBottom: 5,
+            paddingTop: 5,
+            fontFamily: "poppins-regular",
+          }}
+          setValue={setThemeDropdownValue}
+          value={themeDropdownValue}
+          onSelectItem={(value) => {
+            setThemeItem(value);
+          }}
+          theme={theme === "dark" ? "DARK" : "LIGHT"}
+          dropDownDirection="TOP"
           textStyle={{ fontFamily: "poppins-regular" }}
           labelStyle={{ fontFamily: "poppins-regular" }}
         />
@@ -155,13 +303,6 @@ const SettingsScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 50,
-    alignItems: "center",
-    paddingHorizontal: 16,
-    backgroundColor: Colors.background,
-  },
   header: {
     alignItems: "center",
     flexDirection: "row",
@@ -171,35 +312,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: 75,
-  },
-  pageHeader: {
-    fontSize: 45,
-    color: Colors.textHeader,
-    fontFamily: "poppins-medium",
-  },
-  text: {
-    color: Colors.text,
-    fontFamily: "poppins-regular",
-  },
-  setting: {
-    width: "90%",
-    backgroundColor: Colors.settingBackground,
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 20,
-  },
-  settingText: {
-    color: Colors.text,
-    fontSize: 20,
-    fontFamily: "poppins-regular",
-    marginBottom: 20,
-  },
-  dropdown: {
-    borderColor: Colors.border,
-    paddingLeft: 10,
-    paddingBottom: 5,
-    paddingTop: 5,
-    fontFamily: "poppins-regular",
   },
 });
 
