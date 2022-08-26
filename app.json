@@ -2,7 +2,7 @@
   "expo": {
     "name": "CoinDeno",
     "slug": "coindeno",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,15 +15,17 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.1.0",
       "bundleIdentifier": "com.coindeno.coindenoapp",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 3,
       "package": "com.coindeno.coindenoapp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
@@ -41,6 +43,11 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "78aa3b87-6697-4d65-b04d-6786daca5fe8"
+      }
+    }
   }
 }
