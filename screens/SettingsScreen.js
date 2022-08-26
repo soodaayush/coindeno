@@ -201,7 +201,6 @@ const SettingsScreen = () => {
       <View
         style={{
           width: "90%",
-          display: "block",
           backgroundColor:
             theme === "dark"
               ? Colors.settingBackgroundDark
@@ -251,7 +250,6 @@ const SettingsScreen = () => {
       <View
         style={{
           width: "90%",
-          display: "block",
           backgroundColor:
             theme === "dark"
               ? Colors.settingBackgroundDark
