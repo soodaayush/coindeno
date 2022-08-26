@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -37,6 +37,39 @@ const SettingsScreen = () => {
     { label: "CNY - Chinese Yuan", value: "cny" },
     { label: "RUB - Russian Ruble", value: "rub" },
     { label: "KRW - South Korean Won", value: "krw" },
+    { label: "IDR - Indonesian Rupiah", value: "idr" },
+    { label: "AED - United Arab Emirates Dirham", value: "aed" },
+    { label: "BDT - Bangladeshi Taka", value: "bdt" },
+    { label: "BRL - Brazil Real", value: "brl" },
+    { label: "CLP - Chilean Peso", value: "clp" },
+    { label: "ILS - Israeli New Shekel", value: "ils" },
+    { label: "LKR - Sri Lankan Rupee", value: "lkr" },
+    { label: "MYR - Malaysian Ringgit", value: "myr" },
+    { label: "NZD - New Zealand Dollar", value: "nzd" },
+    { label: "PLN - Polish Zloty", value: "pln" },
+    { label: "SGD - Singapore Dollar", value: "sgd" },
+    { label: "UAH - Ukrainian Hryvnia", value: "uah" },
+    { label: "ARS - Argentine Peso", value: "ars" },
+    { label: "BHD - Bahraini Dinar", value: "bhd" },
+    { label: "CZK - Czech Koruna", value: "zar" },
+    { label: "HKD - Hong Kong Dollar", value: "hkd" },
+    { label: "MMK - Burmese Kyat", value: "mmk" },
+    { label: "NGN - Nigerian Naira", value: "ngn" },
+    { label: "PHP - Philippine Peso ", value: "php" },
+    { label: "SAR - Saudi Riyal", value: "sar" },
+    { label: "THB - Thai Baht", value: "thb" },
+    { label: "VEF - Venezuelan Bolivar Fuerte", value: "vef" },
+    { label: "AUD - Australian Dollar", value: "aud" },
+    { label: "BMD - Bermudian Dollar", value: "bmd" },
+    { label: "CHF - Swiss Franc", value: "chf" },
+    { label: "DKK - Danish Krone", value: "dkk" },
+    { label: "HUF - Hungarian Forint", value: "huf" },
+    { label: "KWD - Kuwaiti Dinar", value: "kwd" },
+    { label: "MXN - Mexican Peso", value: "mxn" },
+    { label: "NOK - Norwegian Krone", value: "nok" },
+    { label: "PKR - Pakistani Rupee", value: "pkr" },
+    { label: "SEK - Swedish Krona", value: "sek" },
+    { label: "VND - Vietnamese Dồng", value: "vnd" },
   ]);
 
   const [themeItems, setThemeItems] = useState([
@@ -241,6 +274,7 @@ const SettingsScreen = () => {
           onSelectItem={(value) => {
             setCurrencyItem(value);
           }}
+          searchable
           theme={theme === "dark" ? "DARK" : "LIGHT"}
           dropDownDirection="TOP"
           textStyle={{ fontFamily: "poppins-regular" }}
