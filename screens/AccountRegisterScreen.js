@@ -182,6 +182,7 @@ const AccountRegisterScreen = () => {
             backgroundColor={theme === "dark" ? Colors.borderDark : ""}
             textColor="black"
             text="Back"
+            margin="right"
             onPress={redirectToAccountLoginRegisterScreen}
           />
         </View>
@@ -190,6 +191,7 @@ const AccountRegisterScreen = () => {
             backgroundColor={theme === "dark" ? "#377D71" : ""}
             textColor={theme === "dark" ? "white" : "black"}
             text="Register"
+            margin="left"
             onPress={handleSignUp}
           />
         </View>
@@ -210,9 +212,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   buttonContainer: {
-    width: "47%",
-    marginRight: 10,
-    marginLeft: 10,
+    width: "50%",
   },
 });
 

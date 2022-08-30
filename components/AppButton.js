@@ -4,7 +4,12 @@ import Colors from "../constants/colors";
 
 const AppButton = (props) => {
   return (
-    <View>
+    <View
+      style={{
+        marginRight: props.margin === "right" ? 10 : 0,
+        marginLeft: props.margin === "left" ? 10 : 0,
+      }}
+    >
       <Pressable
         style={({ pressed }) =>
           pressed

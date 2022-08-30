@@ -124,7 +124,6 @@ const AccountLoginScreen = () => {
             fontFamily: "poppins-regular",
             padding: 10,
             borderRadius: 6,
-            marginTop: 10,
             fontSize: 18,
           }}
           value={email}
@@ -164,6 +163,7 @@ const AccountLoginScreen = () => {
             backgroundColor={theme === "dark" ? Colors.borderDark : ""}
             textColor="black"
             text="Back"
+            margin="right"
             onPress={redirectToAccountLoginRegisterScreen}
           />
         </View>
@@ -172,6 +172,7 @@ const AccountLoginScreen = () => {
             backgroundColor={theme === "dark" ? "#377D71" : ""}
             textColor={theme === "dark" ? "white" : "black"}
             text="Log In"
+            margin="left"
             onPress={handleLogin}
           />
         </View>
@@ -192,9 +193,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   buttonContainer: {
-    width: "47%",
-    marginRight: 10,
-    marginLeft: 10,
+    width: "50%",
   },
 });
 
