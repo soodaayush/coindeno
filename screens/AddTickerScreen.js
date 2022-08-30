@@ -31,39 +31,43 @@ const AddTickerScreen = () => {
     printData();
   }, []);
 
+  function getDbTheme() {
+    SettingsDatabaseService.getInstance()
+      .getThemeFromDatabase(auth.currentUser?.uid)
+      .then((themeData) => {
+        setIsLoading(false);
+
+        let theme;
+
+        if (themeData === null) {
+          theme = "dark";
+          setTheme(theme);
+
+          let themeObj = {
+            theme: theme,
+            themeLabel: "Dark",
+          };
+
+          SettingsDatabaseService.getInstance().saveThemeToDatabase(
+            auth.currentUser?.uid,
+            themeObj
+          );
+        } else {
+          for (let key in themeData) {
+            theme = themeData[key].theme;
+            setTheme(theme);
+          }
+        }
+      });
+  }
+
   function printData() {
     TickerDataService.getInstance()
       .getTop250Tickers()
       .then((tickerData) => {
         setIsLoading(false);
 
-        SettingsDatabaseService.getInstance()
-          .getThemeFromDatabase(auth.currentUser?.uid)
-          .then((themeData) => {
-            setIsLoading(false);
-
-            let theme;
-
-            if (themeData === null) {
-              theme = "dark";
-              setTheme(theme);
-
-              let themeObj = {
-                theme: theme,
-                themeLabel: "Dark",
-              };
-
-              SettingsDatabaseService.getInstance().saveThemeToDatabase(
-                auth.currentUser?.uid,
-                themeObj
-              );
-            } else {
-              for (let key in themeData) {
-                theme = themeData[key].theme;
-                setTheme(theme);
-              }
-            }
-          });
+        getDbTheme();
 
         TickerDatabaseService.getInstance()
           .getTickersFromDatabase(auth.currentUser?.uid)
