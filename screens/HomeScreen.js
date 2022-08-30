@@ -37,18 +37,78 @@ const HomeScreen = () => {
 
   useEffect(() => {
     printData();
-    getTheme();
   }, []);
 
   function printData() {
-    let tickerArray = [];
+    let tickerList = [];
 
-    TickerDatabaseService.getInstance()
+    getDbTickers().then((dbTickerData) => {
+      setIsLoading(false);
+
+      getDbCurrency().then((dbCurrencyData) => {
+        getDbTheme();
+
+        for (let i = 0; i < dbTickerData.length; i++) {
+          TickerDataService.getInstance()
+            .getTickerData(dbTickerData[i].name)
+            .then((results) => {
+              if (results.error) {
+                alert(results.error);
+                return;
+              }
+
+              let ticker = {
+                id: results.id,
+                key: dbTickerData[i].key,
+                name: results.name,
+                image: results.image.large,
+                price: results.market_data.current_price[dbCurrencyData],
+              };
+
+              tickerList.push(ticker);
+
+              tickerList.sort((a, b) => a.name.localeCompare(b.name));
+
+              setTickerData(tickerList);
+            });
+        }
+      });
+    });
+  }
+
+  async function getDbTheme() {
+    await SettingsDatabaseService.getInstance()
+      .getThemeFromDatabase(auth.currentUser?.uid)
+      .then((themeData) => {
+        let theme;
+
+        if (themeData === null) {
+          theme = "dark";
+          setTheme(theme);
+
+          let themeObj = {
+            theme: theme,
+            themeLabel: "Dark",
+          };
+
+          SettingsDatabaseService.getInstance().saveThemeToDatabase(
+            auth.currentUser?.uid,
+            themeObj
+          );
+        } else {
+          for (let key in themeData) {
+            theme = themeData[key].theme;
+            setTheme(theme);
+          }
+        }
+      });
+  }
+
+  async function getDbTickers() {
+    const tickers = await TickerDatabaseService.getInstance()
       .getTickersFromDatabase(auth.currentUser?.uid)
       .then((data) => {
-        if (data === null) {
-          setTickerData([]);
-        }
+        let dbTickers = [];
 
         for (let key in data) {
           let ticker = {
@@ -56,93 +116,46 @@ const HomeScreen = () => {
             name: data[key].name,
           };
 
-          tickerArray.push(ticker);
+          dbTickers.push(ticker);
         }
 
-        let tickersArr = [];
-
-        SettingsDatabaseService.getInstance()
-          .getCurrencyFromDatabase(auth.currentUser?.uid)
-          .then((currencyData) => {
-            let currency;
-
-            if (currencyData === null) {
-              currency = "cad";
-              setCurrency(currency);
-
-              let currencyObj = {
-                currency: currency,
-                currencyLabel: "CAD - Canadian Dollar",
-              };
-
-              SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
-                auth.currentUser?.uid,
-                currencyObj
-              );
-            } else {
-              for (let key in currencyData) {
-                currency = currencyData[key].currency;
-                setCurrency(currency);
-              }
-            }
-
-            SettingsDatabaseService.getInstance()
-              .getThemeFromDatabase(auth.currentUser?.uid)
-              .then((themeData) => {
-                setIsLoading(false);
-
-                let theme;
-
-                if (themeData === null) {
-                  theme = "dark";
-                  setTheme(theme);
-
-                  let themeObj = {
-                    theme: theme,
-                    themeLabel: "Dark",
-                  };
-
-                  SettingsDatabaseService.getInstance().saveThemeToDatabase(
-                    auth.currentUser?.uid,
-                    themeObj
-                  );
-                } else {
-                  for (let key in themeData) {
-                    theme = themeData[key].theme;
-                    setTheme(theme);
-                  }
-                }
-              });
-
-            for (let i = 0; i < tickerArray.length; i++) {
-              TickerDataService.getInstance()
-                .getTickerData(tickerArray[i].name)
-                .then((results) => {
-                  if (results.error) {
-                    alert(results.error);
-                    return;
-                  }
-
-                  let ticker = {
-                    id: results.id,
-                    key: tickerArray[i].key,
-                    name: results.name,
-                    image: results.image.large,
-                    price: results.market_data.current_price[currency],
-                  };
-
-                  tickersArr.push(ticker);
-
-                  tickersArr.sort((a, b) => a.name.localeCompare(b.name));
-
-                  setTickerData(tickersArr);
-                });
-            }
-          });
+        return dbTickers;
       });
+
+    return tickers;
   }
 
-  function getTheme() {}
+  async function getDbCurrency() {
+    let currency;
+
+    const currencySettings = await SettingsDatabaseService.getInstance()
+      .getCurrencyFromDatabase(auth.currentUser?.uid)
+      .then((currencyData) => {
+        if (currencyData === null) {
+          currency = "cad";
+          setCurrency(currency);
+
+          let currencyObj = {
+            currency: currency,
+            currencyLabel: "CAD - Canadian Dollar",
+          };
+
+          SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
+            auth.currentUser?.uid,
+            currencyObj
+          );
+        } else {
+          for (let key in currencyData) {
+            currency = currencyData[key].currency;
+            setCurrency(currency);
+          }
+        }
+
+        return currency;
+      });
+
+    return currencySettings;
+  }
 
   function deleteTicker(key) {
     Alert.alert(
