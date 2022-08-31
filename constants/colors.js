@@ -6,9 +6,9 @@ const Colors = {
   androidRippleDark: "#1F4690",
   textDark: "#FFE5B4",
   textHeaderDark: "#E8AA42",
-  borderDark: "#E8AA42",
+  borderDark: "#0F3460",
   backgroundLight: "#FFF",
-  textLight: "black",
+  textLight: "#000",
   borderLight: "#EAE3D2",
   settingBackgroundLight: "#FFF",
 };

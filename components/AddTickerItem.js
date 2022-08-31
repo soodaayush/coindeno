@@ -14,8 +14,6 @@ const AddTickerItem = (props) => {
         borderWidth: 1,
         borderColor:
           props.theme === "dark" ? Colors.borderDark : Colors.borderLight,
-        backgroundColor:
-          props.theme === "dark" ? Colors.tickerBackgroundDark : "",
         borderRadius: 10,
       }}
     >
@@ -47,7 +45,7 @@ const AddTickerItem = (props) => {
                 props.theme === "dark" ? Colors.textDark : Colors.textLight,
               fontSize: 15,
               padding: 10,
-              fontFamily: "poppins-regular",
+              fontFamily: "lato-regular",
             }}
           >
             {props.name}

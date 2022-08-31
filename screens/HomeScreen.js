@@ -220,29 +220,32 @@ const HomeScreen = () => {
         <View style={styles.header}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#1F4690" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Settings"
               textColor={theme === "dark" ? Colors.textDark : "black"}
               theme={theme}
+              border={theme === "light" ? true : false}
               onPress={redirectToSettingsPage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Log Out"
               textColor={theme === "dark" ? Colors.textDark : "black"}
               theme={theme}
+              border={theme === "light" ? true : false}
               onPress={handleSignOut}
             />
           </View>
         </View>
         <View style={styles.addTickerContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Add Ticker"
             textColor={theme === "dark" ? Colors.textDark : "black"}
             theme={theme}
+            border={theme === "light" ? true : false}
             onPress={redirectToAddTickerPage}
           />
         </View>
@@ -267,29 +270,32 @@ const HomeScreen = () => {
         <View style={styles.header}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#1F4690" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Settings"
               textColor={theme === "dark" ? Colors.textDark : "black"}
               theme={theme}
+              border={theme === "light" ? true : false}
               onPress={redirectToSettingsPage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Log Out"
               textColor={theme === "dark" ? Colors.textDark : "black"}
               theme={theme}
+              border={theme === "light" ? true : false}
               onPress={handleSignOut}
             />
           </View>
         </View>
         <View style={styles.addTickerContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Add Ticker"
             textColor={theme === "dark" ? Colors.textDark : "black"}
             theme={theme}
+            border={theme === "light" ? true : false}
             onPress={redirectToAddTickerPage}
           />
         </View>

@@ -15,47 +15,45 @@ const AppButton = (props) => {
           pressed
             ? [
                 {
-                  backgroundColor: props.backgroundColor,
+                  backgroundColor: props.backgroundColor
+                    ? props.backgroundColor
+                    : "#fff",
                   flexDirection: props.direction === "row" ? "row" : "column",
                   alignItems: "center",
                   padding: 10,
                   borderRadius: 10,
                   width: "100%",
                   marginBottom: 20,
-                  borderWidth: 1,
-                  borderColor:
-                    props.theme === "dark"
-                      ? Colors.borderDark
-                      : Colors.borderLight,
+                  borderWidth: props.border ? 1 : 0,
+                  borderColor: props.border ? Colors.borderLight : "",
                 },
                 {
                   opacity: 0.75,
                 },
               ]
             : {
-                backgroundColor: props.backgroundColor,
+                backgroundColor: props.backgroundColor
+                  ? props.backgroundColor
+                  : "#fff",
                 flexDirection: props.direction === "row" ? "row" : "column",
                 alignItems: "center",
                 padding: 10,
                 borderRadius: 10,
                 width: "100%",
                 marginBottom: 20,
-                borderWidth: 1,
-                borderColor:
-                  props.theme === "dark"
-                    ? Colors.borderDark
-                    : Colors.borderLight,
+                borderWidth: props.border ? 1 : 0,
+                borderColor: props.border ? Colors.borderLight : "",
               }
         }
         onPress={props.onPress}
-        android_ripple={{ color: Colors.androidRipple }}
+        android_ripple={{ color: "#dddddd" }}
       >
         {props.text && (
           <Text
             style={{
               color: props.textColor,
               textAlign: "center",
-              fontFamily: "poppins-regular",
+              fontFamily: "lato-regular",
               fontSize: 18,
             }}
           >

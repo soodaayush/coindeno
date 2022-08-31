@@ -23,8 +23,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
-    "poppins-regular": require("./assets/Poppins/Poppins-Regular.ttf"),
-    "poppins-medium": require("./assets/Poppins/Poppins-Medium.ttf"),
+    "lato-regular": require("./assets/Lato/Lato-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
