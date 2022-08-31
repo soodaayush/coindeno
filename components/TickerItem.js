@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
-import { useEffect } from "react";
+import { memo } from "react";
 
 import Colors from "../constants/colors";
 
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TickerItem;
+export default memo(TickerItem);

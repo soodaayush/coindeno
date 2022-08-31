@@ -67,6 +67,8 @@ const AddFiatScreen = () => {
       { label: "VND - Vietnamese Dồng", value: "vnd" },
     ];
 
+    fiats.sort((a, b) => a.label.localeCompare(b.label));
+
     setFiats(fiats);
 
     SettingsDatabaseService.getInstance()
