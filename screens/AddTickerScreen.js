@@ -155,7 +155,7 @@ const AddTickerScreen = () => {
           borderBottomWidth: 1,
           backgroundColor:
             theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
-          paddingTop: 40,
+          paddingTop: 30,
         }}
       >
         <StatusBar style={theme === "light" ? "dark" : "light"} />
@@ -194,7 +194,7 @@ const AddTickerScreen = () => {
         borderBottomWidth: 1,
         backgroundColor:
           theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
-        paddingTop: 40,
+        paddingTop: 30,
       }}
     >
       <StatusBar style={theme === "light" ? "dark" : "light"} />

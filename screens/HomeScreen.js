@@ -206,14 +206,14 @@ const HomeScreen = () => {
 
   if (isLoading) {
     return (
-      <View
+      <SafeAreaView
         style={{
           flex: 1,
           alignItems: "center",
           paddingHorizontal: 16,
           backgroundColor:
             theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
-          paddingTop: 40,
+          paddingTop: 30,
         }}
       >
         <StatusBar style={theme === "light" ? "dark" : "light"} />
@@ -250,7 +250,7 @@ const HomeScreen = () => {
           />
         </View>
         <Loading />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -264,7 +264,7 @@ const HomeScreen = () => {
           paddingHorizontal: 16,
           backgroundColor:
             theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
-          paddingTop: 40,
+          paddingTop: 30,
         }}
       >
         <View style={styles.header}>

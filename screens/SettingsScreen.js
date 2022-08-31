@@ -16,9 +16,7 @@ import SettingsDatabaseService from "../api/SettingsDatabase";
 const SettingsScreen = () => {
   const navigation = useNavigation();
 
-  const [currencyOpen, setCurrencyOpen] = useState(false);
   const [currencyDropdownValue, setCurrencyDropdownValue] = useState("");
-  const [currencyItem, setCurrencyItem] = useState("");
 
   const [themeOpen, setThemeOpen] = useState(false);
   const [themeDropdownValue, setThemeDropdownValue] = useState("");
@@ -26,51 +24,6 @@ const SettingsScreen = () => {
   const [theme, setTheme] = useState("");
 
   const [isLoading, setIsLoading] = useState(true);
-
-  const [currencyItems, setCurrencyItems] = useState([
-    { label: "CAD - Canadian Dollar", value: "cad" },
-    { label: "EUR - Euro", value: "eur" },
-    { label: "GBP - British Pound Sterling", value: "gbp" },
-    { label: "INR - Indian Rupee", value: "inr" },
-    { label: "USD - US Dollar", value: "usd" },
-    { label: "JPY - Japanese Yen", value: "jpy" },
-    { label: "CNY - Chinese Yuan", value: "cny" },
-    { label: "RUB - Russian Ruble", value: "rub" },
-    { label: "KRW - South Korean Won", value: "krw" },
-    { label: "IDR - Indonesian Rupiah", value: "idr" },
-    { label: "AED - United Arab Emirates Dirham", value: "aed" },
-    { label: "BDT - Bangladeshi Taka", value: "bdt" },
-    { label: "BRL - Brazil Real", value: "brl" },
-    { label: "CLP - Chilean Peso", value: "clp" },
-    { label: "ILS - Israeli New Shekel", value: "ils" },
-    { label: "LKR - Sri Lankan Rupee", value: "lkr" },
-    { label: "MYR - Malaysian Ringgit", value: "myr" },
-    { label: "NZD - New Zealand Dollar", value: "nzd" },
-    { label: "PLN - Polish Zloty", value: "pln" },
-    { label: "SGD - Singapore Dollar", value: "sgd" },
-    { label: "UAH - Ukrainian Hryvnia", value: "uah" },
-    { label: "ARS - Argentine Peso", value: "ars" },
-    { label: "BHD - Bahraini Dinar", value: "bhd" },
-    { label: "CZK - Czech Koruna", value: "zar" },
-    { label: "HKD - Hong Kong Dollar", value: "hkd" },
-    { label: "MMK - Burmese Kyat", value: "mmk" },
-    { label: "NGN - Nigerian Naira", value: "ngn" },
-    { label: "PHP - Philippine Peso ", value: "php" },
-    { label: "SAR - Saudi Riyal", value: "sar" },
-    { label: "THB - Thai Baht", value: "thb" },
-    { label: "VEF - Venezuelan Bolivar Fuerte", value: "vef" },
-    { label: "AUD - Australian Dollar", value: "aud" },
-    { label: "BMD - Bermudian Dollar", value: "bmd" },
-    { label: "CHF - Swiss Franc", value: "chf" },
-    { label: "DKK - Danish Krone", value: "dkk" },
-    { label: "HUF - Hungarian Forint", value: "huf" },
-    { label: "KWD - Kuwaiti Dinar", value: "kwd" },
-    { label: "MXN - Mexican Peso", value: "mxn" },
-    { label: "NOK - Norwegian Krone", value: "nok" },
-    { label: "PKR - Pakistani Rupee", value: "pkr" },
-    { label: "SEK - Swedish Krona", value: "sek" },
-    { label: "VND - Vietnamese Dồng", value: "vnd" },
-  ]);
 
   const [themeItems, setThemeItems] = useState([
     { label: "Dark", value: "dark" },
@@ -82,7 +35,7 @@ const SettingsScreen = () => {
       .getCurrencyFromDatabase(auth.currentUser?.uid)
       .then((data) => {
         for (let key in data) {
-          let currency = data[key].currency;
+          let currency = data[key].currencyLabel;
           setCurrencyDropdownValue(currency);
         }
       });
@@ -105,41 +58,15 @@ const SettingsScreen = () => {
   }
 
   function saveSettings() {
-    if (currencyItem.label === undefined && themeItem.label === undefined) {
+    if (themeItem.label === undefined) {
       alert("Please make edits to your settings to save them!");
       return;
     }
-
-    let currency = {
-      currency: currencyItem.value,
-      currencyLabel: currencyItem.label,
-    };
 
     let theme = {
       theme: themeItem.value,
       themeLabel: themeItem.label,
     };
-
-    if (currencyItem.label !== undefined) {
-      SettingsDatabaseService.getInstance()
-        .getCurrencyFromDatabase(auth.currentUser?.uid)
-        .then((data) => {
-          if (data === null || data === undefined) {
-            SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
-              auth.currentUser?.uid,
-              currency
-            );
-          } else {
-            for (let key in data) {
-              SettingsDatabaseService.getInstance().editCurrencySettings(
-                currency,
-                auth.currentUser?.uid,
-                key
-              );
-            }
-          }
-        });
-    }
 
     if (themeItem.label !== undefined) {
       SettingsDatabaseService.getInstance()
@@ -165,9 +92,22 @@ const SettingsScreen = () => {
     redirectToHomePage();
   }
 
+  function redirectToAddFiatScreen() {
+    navigation.replace("Add Fiat");
+  }
+
   if (isLoading) {
     return (
-      <View style={styles.container}>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          alignItems: "center",
+          paddingHorizontal: 16,
+          backgroundColor:
+            theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+          paddingTop: 30,
+        }}
+      >
         <StatusBar style={theme === "light" ? "dark" : "light"} />
         <View style={styles.header}>
           <View style={styles.buttonContainer}>
@@ -190,7 +130,7 @@ const SettingsScreen = () => {
           </View>
         </View>
         <Loading />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -198,7 +138,7 @@ const SettingsScreen = () => {
     <SafeAreaView
       style={{
         flex: 1,
-        paddingTop: 50,
+        paddingTop: 30,
         alignItems: "center",
         paddingHorizontal: 16,
         backgroundColor:
@@ -247,29 +187,13 @@ const SettingsScreen = () => {
         >
           Preferred Currency:
         </Text>
-        <DropDownPicker
-          items={currencyItems}
-          setItems={setCurrencyItems}
-          open={currencyOpen}
-          setOpen={setCurrencyOpen}
-          style={{
-            borderColor:
-              theme === "dark" ? Colors.borderDark : Colors.borderLight,
-            paddingLeft: 10,
-            paddingBottom: 5,
-            paddingTop: 5,
-            fontFamily: "lato-regular",
-          }}
-          setValue={setCurrencyDropdownValue}
-          value={currencyDropdownValue}
-          onSelectItem={(value) => {
-            setCurrencyItem(value);
-          }}
-          searchable
-          theme={theme === "dark" ? "DARK" : "LIGHT"}
-          dropDownDirection="DEFAULT"
-          textStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
-          labelStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
+        <AppButton
+          backgroundColor={theme === "dark" ? "#554994" : ""}
+          text={currencyDropdownValue}
+          textColor={theme === "dark" ? Colors.textDark : "black"}
+          theme={theme}
+          border={theme === "light" ? true : false}
+          onPress={redirectToAddFiatScreen}
         />
       </View>
       <View
