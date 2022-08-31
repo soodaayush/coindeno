@@ -14,8 +14,6 @@ function TickerItem(props) {
         borderWidth: 1,
         borderColor:
           props.theme === "dark" ? Colors.borderDark : Colors.borderLight,
-        backgroundColor:
-          props.theme === "dark" ? Colors.tickerBackgroundDark : "",
         borderRadius: 10,
       }}
     >
@@ -31,9 +29,9 @@ function TickerItem(props) {
           <Text
             style={{
               color: props.theme === "dark" ? Colors.textDark : "black",
-              fontSize: 15,
+              fontSize: 16,
               padding: 10,
-              fontFamily: "poppins-regular",
+              fontFamily: "lato-regular",
             }}
           >
             {props.name}
@@ -43,9 +41,9 @@ function TickerItem(props) {
           <Text
             style={{
               color: props.theme === "dark" ? Colors.textDark : "black",
-              fontSize: 15,
+              fontSize: 16,
               padding: 10,
-              fontFamily: "poppins-regular",
+              fontFamily: "lato-regular",
             }}
           >
             {new Intl.NumberFormat("en", {

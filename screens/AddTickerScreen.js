@@ -162,17 +162,19 @@ const AddTickerScreen = () => {
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Back"
               textColor={theme === "dark" ? Colors.textDark : "black"}
+              border={theme === "light" ? true : false}
               onPress={goBackToHomePage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#377D71" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Save"
               textColor={theme === "dark" ? Colors.textDark : "black"}
+              border={theme === "light" ? true : false}
               onPress={addTicker}
             />
           </View>
@@ -199,17 +201,19 @@ const AddTickerScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Back"
             textColor={theme === "dark" ? Colors.textDark : "black"}
+            border={theme === "light" ? true : false}
             onPress={goBackToHomePage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Save"
             textColor={theme === "dark" ? Colors.textDark : "black"}
+            border={theme === "light" ? true : false}
             onPress={addTicker}
           />
         </View>

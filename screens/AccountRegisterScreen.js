@@ -139,7 +139,7 @@ const AccountRegisterScreen = () => {
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
             backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,
             marginTop: 10,
@@ -163,7 +163,7 @@ const AccountRegisterScreen = () => {
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
             backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,
             marginTop: 10,
@@ -179,19 +179,21 @@ const AccountRegisterScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? Colors.borderDark : ""}
-            textColor="black"
+            backgroundColor={theme === "dark" ? "#554994" : ""}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Back"
             margin="right"
+            border={theme === "light" ? true : false}
             onPress={redirectToAccountLoginRegisterScreen}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
-            textColor={theme === "dark" ? "white" : "black"}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Register"
             margin="left"
+            border={theme === "light" ? true : false}
             onPress={handleSignUp}
           />
         </View>

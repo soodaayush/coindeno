@@ -172,17 +172,19 @@ const SettingsScreen = () => {
         <View style={styles.header}>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Back"
               textColor={theme === "dark" ? Colors.textDark : "black"}
+              border={theme === "light" ? true : false}
               onPress={redirectToHomePage}
             />
           </View>
           <View style={styles.buttonContainer}>
             <AppButton
-              backgroundColor={theme === "dark" ? "#377D71" : ""}
+              backgroundColor={theme === "dark" ? "#554994" : ""}
               text="Save"
               textColor={theme === "dark" ? Colors.textDark : "black"}
+              border={theme === "light" ? true : false}
               onPress={saveSettings}
             />
           </View>
@@ -207,40 +209,29 @@ const SettingsScreen = () => {
       <View style={styles.header}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#EB1D36" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Back"
             textColor={theme === "dark" ? Colors.textDark : "black"}
+            border={theme === "light" ? true : false}
             onPress={redirectToHomePage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             text="Save"
             textColor={theme === "dark" ? Colors.textDark : "black"}
+            border={theme === "light" ? true : false}
             onPress={saveSettings}
           />
         </View>
       </View>
-      <Text
-        style={{
-          fontSize: 45,
-          color: theme === "dark" ? Colors.textHeaderDark : "",
-          fontFamily: "poppins-medium",
-        }}
-      >
-        Settings
-      </Text>
       <View
         style={{
           width: "90%",
-          backgroundColor:
-            theme === "dark"
-              ? Colors.settingBackgroundDark
-              : Colors.settingBackgroundLight,
           borderRadius: 10,
           padding: 20,
-          marginBottom: 20,
+          marginBottom: 10,
           borderWidth: 1,
           borderColor:
             theme === "dark" ? Colors.borderDark : Colors.borderLight,
@@ -250,7 +241,7 @@ const SettingsScreen = () => {
           style={{
             color: theme === "dark" ? Colors.textDark : Colors.textLight,
             fontSize: 20,
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
             marginBottom: 20,
           }}
         >
@@ -267,7 +258,7 @@ const SettingsScreen = () => {
             paddingLeft: 10,
             paddingBottom: 5,
             paddingTop: 5,
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
           }}
           setValue={setCurrencyDropdownValue}
           value={currencyDropdownValue}
@@ -276,21 +267,17 @@ const SettingsScreen = () => {
           }}
           searchable
           theme={theme === "dark" ? "DARK" : "LIGHT"}
-          dropDownDirection="TOP"
-          textStyle={{ fontFamily: "poppins-regular" }}
-          labelStyle={{ fontFamily: "poppins-regular" }}
+          dropDownDirection="DEFAULT"
+          textStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
+          labelStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
         />
       </View>
       <View
         style={{
           width: "90%",
-          backgroundColor:
-            theme === "dark"
-              ? Colors.settingBackgroundDark
-              : Colors.settingBackgroundLight,
           borderRadius: 10,
           padding: 20,
-          marginBottom: 20,
+          marginBottom: 10,
           borderWidth: 1,
           borderColor:
             theme === "dark" ? Colors.borderDark : Colors.borderLight,
@@ -300,7 +287,7 @@ const SettingsScreen = () => {
           style={{
             color: theme === "dark" ? Colors.textDark : Colors.textLight,
             fontSize: 20,
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
             marginBottom: 20,
           }}
         >
@@ -317,7 +304,7 @@ const SettingsScreen = () => {
             paddingLeft: 10,
             paddingBottom: 5,
             paddingTop: 5,
-            fontFamily: "poppins-regular",
+            fontFamily: "lato-regular",
           }}
           setValue={setThemeDropdownValue}
           value={themeDropdownValue}
@@ -326,8 +313,8 @@ const SettingsScreen = () => {
           }}
           theme={theme === "dark" ? "DARK" : "LIGHT"}
           dropDownDirection="TOP"
-          textStyle={{ fontFamily: "poppins-regular" }}
-          labelStyle={{ fontFamily: "poppins-regular" }}
+          textStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
+          labelStyle={{ fontFamily: "lato-regular", fontSize: 16 }}
         />
       </View>
     </SafeAreaView>

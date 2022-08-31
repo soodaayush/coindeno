@@ -95,17 +95,19 @@ const LoginScreen = () => {
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? Colors.borderDark : ""}
-            textColor={theme === "dark" ? "#231955" : "black"}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Log In"
+            border={theme === "light" ? true : false}
             onPress={redirectToLoginPage}
           />
         </View>
         <View style={styles.buttonContainer}>
           <AppButton
-            backgroundColor={theme === "dark" ? "#377D71" : ""}
+            backgroundColor={theme === "dark" ? "#554994" : ""}
             textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Register"
+            border={theme === "light" ? true : false}
             onPress={redirectToRegisterPage}
           />
         </View>
