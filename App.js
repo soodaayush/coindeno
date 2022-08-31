@@ -10,6 +10,7 @@ import AccountLoginRegisterScreen from "./screens/AccountLoginRegisterScreen";
 import AccountLoginScreen from "./screens/AccountLoginScreen";
 import AccountRegisterScreen from "./screens/AccountRegisterScreen";
 import AddTickerScreen from "./screens/AddTickerScreen";
+import AddFiatScreen from "./screens/AddFiatScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 
 const Stack = createNativeStackNavigator();
@@ -59,6 +60,11 @@ export default function App() {
           options={{ headerShown: false }}
           name="Add Ticker"
           component={AddTickerScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Add Fiat"
+          component={AddFiatScreen}
         />
         <Stack.Screen
           options={{ headerShown: false }}
