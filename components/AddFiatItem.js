@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { memo } from "react";
 
 import Colors from "../constants/colors";
 
@@ -39,8 +40,6 @@ const AddFiatItem = (props) => {
   );
 };
 
-export default AddFiatItem;
-
 const styles = StyleSheet.create({
   fiat: {
     flexDirection: "row",
@@ -50,3 +49,5 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
 });
+
+export default memo(AddFiatItem);

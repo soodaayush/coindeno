@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { memo } from "react";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Colors from "../constants/colors";
@@ -75,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddTickerItem;
+export default memo(AddTickerItem);

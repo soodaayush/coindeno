@@ -161,7 +161,7 @@ const AccountLoginScreen = () => {
         <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor={theme === "dark" ? "#554994" : ""}
-            textColor={theme === "dark" ? "white" : "black"}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Back"
             margin="right"
             border={theme === "light" ? true : false}
@@ -171,7 +171,7 @@ const AccountLoginScreen = () => {
         <View style={styles.buttonContainer}>
           <AppButton
             backgroundColor={theme === "dark" ? "#554994" : ""}
-            textColor={theme === "dark" ? "white" : "black"}
+            textColor={theme === "dark" ? Colors.textDark : "black"}
             text="Log In"
             margin="left"
             border={theme === "light" ? true : false}
