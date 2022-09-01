@@ -4,7 +4,7 @@
     "slug": "coindeno",
     "version": "1.1.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
