@@ -1,7 +1,5 @@
 import { Component } from "react";
 
-import configData from "../config.json";
-
 export class TickerDataService extends Component {
   static myInstance = null;
 
