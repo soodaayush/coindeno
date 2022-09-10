@@ -19,6 +19,8 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 
+import SettingsDatabaseService from "../api/SettingsDatabase";
+
 import AppButton from "../components/AppButton";
 
 import Colors from "../constants/colors";

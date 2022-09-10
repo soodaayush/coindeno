@@ -82,6 +82,14 @@ export class SettingsDatabaseService extends Component {
       body: JSON.stringify(theme),
     });
   }
+
+  async deleteUserAccount(userId) {
+    let url = `${configData.BASE_URL}/${userId}.json`;
+
+    return await fetch(url, {
+      method: "DELETE",
+    });
+  }
 }
 
 export default SettingsDatabaseService;
