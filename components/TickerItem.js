@@ -1,11 +1,15 @@
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 import Colors from "../constants/colors";
 
 import CachedImage from "react-native-expo-cached-image";
 
 function TickerItem(props) {
+  // useEffect(() => {
+  //   console.log(props.key);
+  // }, []);
+
   return (
     <View
       style={{

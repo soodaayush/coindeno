@@ -48,33 +48,58 @@ const HomeScreen = () => {
       getDbCurrency().then((dbCurrencyData) => {
         getDbTheme();
 
-        for (let i = 0; i < dbTickerData.length; i++) {
-          TickerDataService.getInstance()
-            .getTickerData(dbTickerData[i].name)
-            .then((results) => {
-              if (results.error) {
-                alert(results.error);
-                return;
-              }
+        TickerDataService.getInstance()
+          .getTop250Tickers(dbCurrencyData)
+          .then((results) => {
+            if (results.error) {
+              alert(results.error);
+              return;
+            }
+
+            results.sort((a, b) => a.name.localeCompare(b.name));
+
+            dbTickerData.forEach((element) => {
+              tickerList.push(element.name);
+            });
+
+            results = results.filter((td) => tickerList.includes(td.id));
+
+            let finalTicker = [];
+
+            results.forEach((element) => {
+              let key;
+
+              dbTickerData.forEach((e) => {
+                if (e.name === element.id) {
+                  key = e.key;
+                }
+              });
 
               let ticker = {
-                id: results.id,
-                key: dbTickerData[i].key,
-                name: results.name,
-                image: results.image.large,
-                price: results.market_data.current_price[dbCurrencyData],
+                id: element.id,
+                key: key,
+                name: element.name,
+                image: element.image,
+                price: element.current_price,
               };
 
-              tickerList.push(ticker);
-
-              tickerList.sort((a, b) => a.name.localeCompare(b.name));
-
-              setTickerData(tickerList);
+              finalTicker.push(ticker);
             });
-        }
+
+            setTickerData(finalTicker);
+          });
       });
     });
   }
+
+  // function getKeyFromName(dbTickers, name) {
+  //   dbTickers.forEach((element) => {
+  //     if (element.name === name) {
+  //       console.log(element.name);
+  //       return "hhhh";
+  //     }
+  //   });
+  // }
 
   async function getDbTheme() {
     await SettingsDatabaseService.getInstance()
@@ -112,8 +137,8 @@ const HomeScreen = () => {
 
         for (let key in data) {
           let ticker = {
-            key: key,
             name: data[key].name,
+            key: key,
           };
 
           dbTickers.push(ticker);
@@ -126,18 +151,18 @@ const HomeScreen = () => {
   }
 
   async function getDbCurrency() {
-    let currency;
-
-    const currencySettings = await SettingsDatabaseService.getInstance()
-      .getCurrencyFromDatabase(auth.currentUser?.uid)
+    let currencyFromDb = await SettingsDatabaseService.getInstance()
+      .getCurrencyFromDatabase(auth.currentUser.uid)
       .then((currencyData) => {
+        let dbCurrency;
+
         if (currencyData === null) {
-          currency = "cad";
-          setCurrency(currency);
+          dbCurrency = "usd";
+          setCurrency(dbCurrency);
 
           let currencyObj = {
-            currency: currency,
-            currencyLabel: "CAD - Canadian Dollar",
+            currency: dbCurrency,
+            currencyLabel: "USD - US Dollar",
           };
 
           SettingsDatabaseService.getInstance().saveCurrencyToDatabase(
@@ -146,15 +171,15 @@ const HomeScreen = () => {
           );
         } else {
           for (let key in currencyData) {
-            currency = currencyData[key].currency;
-            setCurrency(currency);
+            dbCurrency = currencyData[key].currency;
+            setCurrency(dbCurrency);
           }
         }
 
-        return currency;
+        return dbCurrency;
       });
 
-    return currencySettings;
+    return currencyFromDb;
   }
 
   function deleteTicker(key) {
@@ -310,8 +335,8 @@ const HomeScreen = () => {
               return (
                 <TickerItem
                   name={tickerData.item.name}
-                  price={tickerData.item.price}
                   logo={tickerData.item.image}
+                  price={tickerData.item.price}
                   id={tickerData.item.key}
                   theme={theme}
                   currency={currency}

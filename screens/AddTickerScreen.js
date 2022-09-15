@@ -63,7 +63,7 @@ const AddTickerScreen = () => {
 
   function printData() {
     TickerDataService.getInstance()
-      .getTop250Tickers()
+      .getTop250Tickers("usd")
       .then((tickerData) => {
         setIsLoading(false);
 
