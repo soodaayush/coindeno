@@ -17,13 +17,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.1.1",
+      "buildNumber": "1.1.6",
       "bundleIdentifier": "com.coindeno.coindenoapp",
       "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 6,
       "package": "com.coindeno.coindenoapp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
