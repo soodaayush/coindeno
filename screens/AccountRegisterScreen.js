@@ -19,8 +19,6 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 
-import SettingsDatabaseService from "../api/SettingsDatabase";
-
 import AppButton from "../components/AppButton";
 
 import Colors from "../constants/colors";
@@ -33,35 +31,7 @@ const AccountRegisterScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    if (auth.currentUser) {
-      SettingsDatabaseService.getInstance()
-        .getThemeFromDatabase(auth.currentUser?.uid)
-        .then((themeData) => {
-          let theme;
-
-          if (themeData === null) {
-            theme = "dark";
-            setTheme(theme);
-
-            let themeObj = {
-              theme: theme,
-              themeLabel: "Dark",
-            };
-
-            SettingsDatabaseService.getInstance().saveThemeToDatabase(
-              auth.currentUser?.uid,
-              themeObj
-            );
-          } else {
-            for (let key in themeData) {
-              theme = themeData[key].theme;
-              setTheme(theme);
-            }
-          }
-        });
-    } else {
-      setTheme("dark");
-    }
+    setTheme("dark");
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user !== null) {

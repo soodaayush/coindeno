@@ -7,9 +7,9 @@ import { StatusBar } from "expo-status-bar";
 
 import AppButton from "../components/AppButton";
 
-import Colors from "../constants/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import SettingsDatabaseService from "../api/SettingsDatabase";
+import Colors from "../constants/colors";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -17,35 +17,9 @@ const LoginScreen = () => {
   const [theme, setTheme] = useState("");
 
   useEffect(() => {
-    if (auth.currentUser) {
-      SettingsDatabaseService.getInstance()
-        .getThemeFromDatabase(auth.currentUser?.uid)
-        .then((themeData) => {
-          let theme;
+    setTheme("dark");
 
-          if (themeData === null) {
-            theme = "dark";
-            setTheme(theme);
-
-            let themeObj = {
-              theme: theme,
-              themeLabel: "Dark",
-            };
-
-            SettingsDatabaseService.getInstance().saveThemeToDatabase(
-              auth.currentUser?.uid,
-              themeObj
-            );
-          } else {
-            for (let key in themeData) {
-              theme = themeData[key].theme;
-              setTheme(theme);
-            }
-          }
-        });
-    } else {
-      setTheme("dark");
-    }
+    fetchTheme();
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user !== null) {
@@ -57,6 +31,15 @@ const LoginScreen = () => {
 
     return unsubscribe;
   }, []);
+
+  async function fetchTheme() {
+    let theme = await AsyncStorage.getItem("theme");
+
+    if (theme === null) {
+      theme = await AsyncStorage.setItem("theme", "dark");
+      await AsyncStorage.setItem("themeLabel", "Dark");
+    }
+  }
 
   function redirectToLoginPage() {
     navigation.replace("AccountLogin");

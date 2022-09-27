@@ -10,6 +10,9 @@ import {
   TextInput,
   Image,
 } from "react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -60,24 +63,21 @@ const SettingsScreen = () => {
         }
       });
 
-    SettingsDatabaseService.getInstance()
-      .getThemeFromDatabase(auth.currentUser?.uid)
-      .then((data) => {
-        setIsLoading(false);
-
-        for (let key in data) {
-          let theme = data[key].theme;
-          setThemeDropdownValue(theme);
-          setTheme(theme);
-        }
-      });
+    getDbTheme();
   }, []);
+
+  async function getDbTheme() {
+    const theme = await AsyncStorage.getItem("theme");
+    setThemeDropdownValue(theme);
+    setTheme(theme);
+    setIsLoading(false);
+  }
 
   function redirectToHomePage() {
     navigation.replace("Home");
   }
 
-  function saveSettings() {
+  async function saveSettings() {
     if (themeItem.label === undefined) {
       alert("Please make edits to your settings to save them!");
       return;
@@ -89,24 +89,8 @@ const SettingsScreen = () => {
     };
 
     if (themeItem.label !== undefined) {
-      SettingsDatabaseService.getInstance()
-        .getThemeFromDatabase(auth.currentUser?.uid)
-        .then((data) => {
-          if (data === null || data === undefined) {
-            SettingsDatabaseService.getInstance().saveThemeToDatabase(
-              auth.currentUser?.uid,
-              theme
-            );
-          } else {
-            for (let key in data) {
-              SettingsDatabaseService.getInstance().editThemeSettings(
-                theme,
-                auth.currentUser?.uid,
-                key
-              );
-            }
-          }
-        });
+      await AsyncStorage.setItem("theme", theme.theme);
+      await AsyncStorage.setItem("themeLabel", theme.themeLabel);
     }
 
     redirectToHomePage();

@@ -2,6 +2,8 @@ import { StyleSheet, View, FlatList } from "react-native";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
@@ -71,17 +73,14 @@ const AddFiatScreen = () => {
 
     setFiats(fiats);
 
-    SettingsDatabaseService.getInstance()
-      .getThemeFromDatabase(auth.currentUser?.uid)
-      .then((data) => {
-        setIsLoading(false);
-
-        for (let key in data) {
-          let theme = data[key].theme;
-          setTheme(theme);
-        }
-      });
+    getDbTheme();
   }, []);
+
+  async function getDbTheme() {
+    const theme = await AsyncStorage.getItem("theme");
+    setTheme(theme);
+    setIsLoading(false);
+  }
 
   function goBackToHomePage() {
     navigation.replace("Home");
