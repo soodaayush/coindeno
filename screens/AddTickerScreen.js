@@ -4,6 +4,8 @@ import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
 import AddTickerItem from "../components/AddTickerItem";
@@ -29,36 +31,40 @@ const AddTickerScreen = () => {
 
   useEffect(() => {
     printData();
+    getDbTheme();
   }, []);
 
-  function getDbTheme() {
-    SettingsDatabaseService.getInstance()
-      .getThemeFromDatabase(auth.currentUser?.uid)
-      .then((themeData) => {
-        setIsLoading(false);
+  async function getDbTheme() {
+    // SettingsDatabaseService.getInstance()
+    //   .getThemeFromDatabase(auth.currentUser?.uid)
+    //   .then((themeData) => {
+    //     setIsLoading(false);
 
-        let theme;
+    //     let theme;
 
-        if (themeData === null) {
-          theme = "dark";
-          setTheme(theme);
+    //     if (themeData === null) {
+    //       theme = "dark";
+    //       setTheme(theme);
 
-          let themeObj = {
-            theme: theme,
-            themeLabel: "Dark",
-          };
+    //       let themeObj = {
+    //         theme: theme,
+    //         themeLabel: "Dark",
+    //       };
 
-          SettingsDatabaseService.getInstance().saveThemeToDatabase(
-            auth.currentUser?.uid,
-            themeObj
-          );
-        } else {
-          for (let key in themeData) {
-            theme = themeData[key].theme;
-            setTheme(theme);
-          }
-        }
-      });
+    //       SettingsDatabaseService.getInstance().saveThemeToDatabase(
+    //         auth.currentUser?.uid,
+    //         themeObj
+    //       );
+    //     } else {
+    //       for (let key in themeData) {
+    //         theme = themeData[key].theme;
+    //         setTheme(theme);
+    //       }
+    //     }
+    //   });
+
+    const theme = await AsyncStorage.getItem("theme");
+    setTheme(theme);
   }
 
   function printData() {
@@ -66,8 +72,6 @@ const AddTickerScreen = () => {
       .getTop250Tickers("usd")
       .then((tickerData) => {
         setIsLoading(false);
-
-        getDbTheme();
 
         TickerDatabaseService.getInstance()
           .getTickersFromDatabase(auth.currentUser?.uid)

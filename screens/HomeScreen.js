@@ -13,6 +13,8 @@ import { StatusBar } from "expo-status-bar";
 import "intl";
 import "intl/locale-data/jsonp/en";
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import TickerItem from "../components/TickerItem";
 import AppButton from "../components/AppButton";
 import Loading from "../components/Loading";
@@ -37,6 +39,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     printData();
+    getDbTheme();
   }, []);
 
   function printData() {
@@ -46,8 +49,6 @@ const HomeScreen = () => {
       setIsLoading(false);
 
       getDbCurrency().then((dbCurrencyData) => {
-        getDbTheme();
-
         TickerDataService.getInstance()
           .getTop250Tickers(dbCurrencyData)
           .then((results) => {
@@ -102,31 +103,40 @@ const HomeScreen = () => {
   // }
 
   async function getDbTheme() {
-    await SettingsDatabaseService.getInstance()
-      .getThemeFromDatabase(auth.currentUser?.uid)
-      .then((themeData) => {
-        let theme;
+    // await SettingsDatabaseService.getInstance()
+    //   .getThemeFromDatabase(auth.currentUser?.uid)
+    //   .then((themeData) => {
+    //     let theme;
 
-        if (themeData === null) {
-          theme = "dark";
-          setTheme(theme);
+    //     if (themeData === null) {
+    //       theme = "dark";
+    //       setTheme(theme);
 
-          let themeObj = {
-            theme: theme,
-            themeLabel: "Dark",
-          };
+    //       let themeObj = {
+    //         theme: theme,
+    //         themeLabel: "Dark",
+    //       };
 
-          SettingsDatabaseService.getInstance().saveThemeToDatabase(
-            auth.currentUser?.uid,
-            themeObj
-          );
-        } else {
-          for (let key in themeData) {
-            theme = themeData[key].theme;
-            setTheme(theme);
-          }
-        }
-      });
+    //       SettingsDatabaseService.getInstance().saveThemeToDatabase(
+    //         auth.currentUser?.uid,
+    //         themeObj
+    //       );
+    //     } else {
+    //       for (let key in themeData) {
+    //         theme = themeData[key].theme;
+    //         setTheme(theme);
+    //       }
+    //     }
+    //   });
+
+    let theme = await AsyncStorage.getItem("theme");
+
+    if (theme === null) {
+      theme = await AsyncStorage.setItem("theme", "dark");
+      await AsyncStorage.setItem("themeLabel", "Dark");
+    }
+
+    setTheme(theme);
   }
 
   async function getDbTickers() {
@@ -237,7 +247,9 @@ const HomeScreen = () => {
           alignItems: "center",
           paddingHorizontal: 16,
           backgroundColor:
-            theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+            theme === "dark" && theme !== ""
+              ? Colors.backgroundDark
+              : Colors.backgroundLight,
           paddingTop: 30,
         }}
       >
@@ -288,7 +300,9 @@ const HomeScreen = () => {
           alignItems: "center",
           paddingHorizontal: 16,
           backgroundColor:
-            theme === "dark" ? Colors.backgroundDark : Colors.backgroundLight,
+            theme === "dark" && theme !== ""
+              ? Colors.backgroundDark
+              : Colors.backgroundLight,
           paddingTop: 30,
         }}
       >
