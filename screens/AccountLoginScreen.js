@@ -30,8 +30,13 @@ const AccountLoginScreen = () => {
     setTheme("dark");
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log(user);
+
       if (user !== null) {
         if (user.emailVerified) {
+          console.log(user);
+
+          console.log(user.emailVerified);
           navigation.replace("Home");
         }
       }
@@ -94,7 +99,8 @@ const AccountLoginScreen = () => {
               theme === "dark" ? Colors.borderDark : Colors.borderLight,
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
-            backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
+            backgroundColor:
+              theme === "dark" ? Colors.inputBackgroundDark : "#fff",
             fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,
@@ -117,7 +123,8 @@ const AccountLoginScreen = () => {
               theme === "dark" ? Colors.borderDark : Colors.borderLight,
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
-            backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
+            backgroundColor:
+              theme === "dark" ? Colors.inputBackgroundDark : "#fff",
             fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,
