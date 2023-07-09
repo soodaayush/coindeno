@@ -11,7 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#231955"
     },
-    "jsEngine": "jcs",
+    "jsEngine": "jsc",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
