@@ -30,13 +30,8 @@ const AccountLoginScreen = () => {
     setTheme("dark");
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user);
-
       if (user !== null) {
         if (user.emailVerified) {
-          console.log(user);
-
-          console.log(user.emailVerified);
           navigation.replace("Home");
         }
       }
