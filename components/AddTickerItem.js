@@ -1,10 +1,8 @@
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 import { memo } from "react";
 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import Colors from "../constants/colors";
-
-import CachedImage from "react-native-expo-cached-image";
 
 const AddTickerItem = (props) => {
   return (
@@ -35,7 +33,7 @@ const AddTickerItem = (props) => {
             style={{ marginLeft: 12 }}
             onPress={props.onAddTickerToList.bind(this, props.id)}
           />
-          <CachedImage
+          <Image
             isBackground
             style={styles.image}
             source={{ uri: props.logo }}

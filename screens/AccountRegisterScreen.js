@@ -110,7 +110,8 @@ const AccountRegisterScreen = () => {
               theme === "dark" ? Colors.borderDark : Colors.borderLight,
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
-            backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
+            backgroundColor:
+              theme === "dark" ? Colors.inputBackgroundDark : "#fff",
             fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,
@@ -134,7 +135,8 @@ const AccountRegisterScreen = () => {
               theme === "dark" ? Colors.borderDark : Colors.borderLight,
             width: "100%",
             color: theme === "dark" ? Colors.textDark : "black",
-            backgroundColor: theme === "dark" ? Colors.inputBackgroundDark : "",
+            backgroundColor:
+              theme === "dark" ? Colors.inputBackgroundDark : "#fff",
             fontFamily: "lato-regular",
             padding: 10,
             borderRadius: 6,

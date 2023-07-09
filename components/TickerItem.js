@@ -1,15 +1,9 @@
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 
 import Colors from "../constants/colors";
 
-import CachedImage from "react-native-expo-cached-image";
-
 function TickerItem(props) {
-  // useEffect(() => {
-  //   console.log(props.key);
-  // }, []);
-
   return (
     <View
       style={{
@@ -29,7 +23,7 @@ function TickerItem(props) {
         }
       >
         <View style={styles.infoView}>
-          <CachedImage style={styles.image} source={{ uri: props.logo }} />
+          <Image style={styles.image} source={{ uri: props.logo }} />
           <Text
             style={{
               color: props.theme === "dark" ? Colors.textDark : "black",
