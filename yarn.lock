@@ -4298,9 +4298,9 @@ fast-glob@^3.2.5, fast-glob@^3.2.9:
     micromatch "^4.0.4"
 
 fast-xml-parser@^4.0.12:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.1.2.tgz#5a98c18238d28a57bbdfa9fe4cda01211fff8f4a"
-  integrity sha512-CDYeykkle1LiA/uqQyNwYpFbyF6Axec6YapmpUP+/RHWIoR1zKjocdvNaTsxCxZzQ6v9MLXaSYm9Qq0thv0DHg==
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.7.tgz#871f2ca299dc4334b29f8da3658c164e68395167"
+  integrity sha512-J8r6BriSLO1uj2miOk1NW0YVm8AGOOu3Si2HQp/cSmo6EA4m3fcwu2WKjJ4RK9wMLBtg69y1kS8baDiQBR41Ig==
   dependencies:
     strnum "^1.0.5"
 
@@ -5430,10 +5430,10 @@ loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-ios@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-4.2.0.tgz#413a400923c6ea4f4edf62c6a4079d0e8c34fa4e"
-  integrity sha512-dzo66ndfeXJ7V7sqw+5nvjG8gqrhpKd+Ul3XvvVBFAdqmNY5Rj3qER4u1hVUes16GIQrwtDRNSehjH/wTeSzLw==
+lottie-ios@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/lottie-ios/-/lottie-ios-3.4.0.tgz#a23be299760aefb44298b9cb5f60df489030adbf"
+  integrity sha512-qnV8UrawwnBRf5V0no2yxlPUE69vzfFqpxEEXGTZhb1/WX1xewqVNYvtbguqwQkdu9IT9D5WC1U9CHZ1KbkGDw==
 
 lottie-react-native@^5.1.6:
   version "5.1.6"
