@@ -23,7 +23,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 10,
       "package": "com.coindeno.coindenoapp",
       "googleServicesFile": "./google-services.json",
       "softwareKeyboardLayoutMode": "pan",
