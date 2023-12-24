@@ -76,4 +76,4 @@ dist/
 
 GoogleService-Info.plist
 google-services.json
-firebase
+firebase/
