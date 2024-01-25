@@ -17,6 +17,8 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/core";
 import DropDownPicker from "react-native-dropdown-picker";
 
+import { openBrowserAsync } from "expo-web-browser";
+
 import { auth } from "../firebase/config";
 import {
   deleteUser,
@@ -118,6 +120,10 @@ const SettingsScreen = () => {
         },
       ]
     );
+  }
+
+  function openPrivacyPolicy() {
+    openBrowserAsync("https://coindeno.netlify.app/privacypolicy");
   }
 
   function deleteAccountFromDatabase() {
@@ -416,6 +422,40 @@ const SettingsScreen = () => {
           border={theme === "light" ? true : false}
           onPress={openAccountDeletionPrompt}
         />
+      </View>
+      <View style={{ marginTop: 20, width: "80%" }}>
+        <AppButton
+          backgroundColor={theme === "dark" ? "#554994" : ""}
+          text="Privacy Policy"
+          textColor={theme === "dark" ? Colors.textDark : "black"}
+          theme={theme}
+          border={theme === "light" ? true : false}
+          onPress={openPrivacyPolicy}
+        />
+      </View>
+      <View style={{ marginTop: 20, width: "80%" }}>
+        <Text
+          style={{
+            color: theme === "dark" ? Colors.textDark : Colors.textLight,
+            fontSize: 15,
+            fontFamily: "lato-regular",
+            textAlign: "center",
+            marginBottom: 20,
+          }}
+        >
+          Version 1.1.5
+        </Text>
+        <Text
+          style={{
+            color: theme === "dark" ? Colors.textDark : Colors.textLight,
+            fontSize: 15,
+            fontFamily: "lato-regular",
+            textAlign: "center",
+            marginBottom: 20,
+          }}
+        >
+          &copy; CoinDeno 2022 - Present
+        </Text>
       </View>
     </SafeAreaView>
   );
