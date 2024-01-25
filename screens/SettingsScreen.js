@@ -443,7 +443,7 @@ const SettingsScreen = () => {
             marginBottom: 20,
           }}
         >
-          Version 1.1.5
+          Version 1.1.6
         </Text>
         <Text
           style={{
