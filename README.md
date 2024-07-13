@@ -2,7 +2,19 @@
 
 ![CoinDeno Logo](https://github.com/soodaayush/coindeno/assets/68301104/2ce92e30-4121-4a21-84a1-57568248e546)
 
-An app used to track cryptocurrencies and their prices:
+## Inspiration
+
+What inspired me to make this app was CoinGecko's mobile app. This was the app that allowed me to learn React Native. I realized that making an app like CoinGecko will teach me a lot about using React Native, so I thought it was the perfect idea. 
+
+## Challenges
+
+The challenges faced while creating this app were submitting the apps to Google Play and the Apple App Store and being faced with specific requirements that were needed in the app, which took hours to implement.
+
+## The App
+
+This app used to track cryptocurrencies and their prices. You can build your own portfolio by adding your favorite coins and tracking their current price through the CoinGecko API. You can customize your own national currency of your choice.
+
+## Links
 
 Android: https://play.google.com/store/apps/details?id=com.coindeno.coindenoapp \
 Website: https://coindeno.netlify.app/
