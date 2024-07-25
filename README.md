@@ -4,19 +4,19 @@
 
 ## Inspiration
 
-What inspired me to make this app was CoinGecko's mobile app. This was the app that allowed me to learn React Native. I realized that making an app like CoinGecko will teach me a lot about using React Native, so I thought it was the perfect idea. 
+What inspired me to make this app was CoinGecko's mobile app. This app allowed me to learn React Native. I realized that making an app like CoinGecko would teach me a lot about using React Native, so I thought it was the perfect idea. 
 
 ## Challenges
 
-The challenges faced while creating this app were submitting the apps to Google Play and the Apple App Store and being faced with specific requirements that were needed in the app, which took hours to implement.
+The challenges faced while creating this app were submitting the apps to Google Play and the Apple App Store and meeting specific requirements that took hours to implement.
 
 ## Lessons Learned
 
-I learned the fundamentals of building a mobile app and meeting a Minimum Viable Product (MVP). I learned about the submission process of submitting the app to the app stores (Apple App Store and Google Play).
+I learned the fundamentals of building a mobile app and meeting a Minimum Viable Product (MVP). I also learned about the submission process for submitting the app to the app stores (Apple App Store and Google Play).
 
 ## The App
 
-This app used to track cryptocurrencies and their prices. You can build your own portfolio by adding your favorite coins and tracking their current price through the CoinGecko API. You can customize your own national currency of your choice.
+This app tracks cryptocurrencies and their prices. You can build your own portfolio by adding your favorite coins and tracking their current price through the CoinGecko API. You can customize the app to use your national currency of choice.
 
 ## Links
 
