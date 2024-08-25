@@ -15,8 +15,6 @@ import { useNavigation } from "@react-navigation/core";
 
 import AppButton from "../components/AppButton";
 
-import SettingsDatabaseService from "../api/SettingsDatabase";
-
 import Colors from "../constants/colors";
 
 const AccountLoginScreen = () => {
