@@ -20,5 +20,4 @@ This app tracks cryptocurrencies and their prices. You can build your own portfo
 
 ## Links
 
-Android: https://play.google.com/store/apps/details?id=com.coindeno.coindenoapp \
 Website: https://coindeno.netlify.app/
