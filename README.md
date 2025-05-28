@@ -4,19 +4,26 @@
 
 ## Inspiration
 
-What inspired me to make this app was CoinGecko's mobile app. This app allowed me to learn React Native. I realized that making an app like CoinGecko would teach me a lot about using React Native, so I thought it was the perfect idea. 
+I’ve always been fascinated by crypto, and when I came across the CoinGecko app, it clicked. What better way to dive into React Native than by building something similar? CoinDeno started as a learning project, but quickly became much more: a real, functional app that helped me explore the world of mobile development and crypto tracking.
 
 ## Challenges
 
-The challenges faced while creating this app were submitting the apps to Google Play and the Apple App Store and meeting specific requirements that took hours to implement.
+Publishing to the app stores was no walk in the park. Between meeting platform requirements and debugging weird edge cases, I spent hours making sure everything was up to standard. It was frustrating at times, but also incredibly rewarding.
 
 ## Lessons Learned
 
-I learned the fundamentals of building a mobile app and meeting a Minimum Viable Product (MVP). I also learned about the submission process for submitting the app to the app stores (Apple App Store and Google Play).
+- The ins and outs of React Native — from navigation to state management
+- How to define and deliver a Minimum Viable Product (MVP)
+- The not-so-glamorous but essential process of submitting to the App Store and Google Play (spoiler: it’s harder than it looks!)
 
 ## The App
 
-This app tracks cryptocurrencies and their prices. You can build your own portfolio by adding your favorite coins and tracking their current price through the CoinGecko API. You can customize the app to use your national currency of choice.
+CoinDeno is your personal crypto companion. Here’s what it does:
+
+- 📈 Live crypto price tracking powered by the CoinGecko API
+- 💰 Build and manage your own custom coin portfolio
+- 🌍 View prices in your local currency for easy conversions
+- 💡 Clean, responsive UI optimized for both iOS and Android
 
 ## Links
 
