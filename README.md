@@ -1,6 +1,6 @@
 # CoinDeno
 
-![CoinDeno Logo](https://github.com/soodaayush/coindeno/assets/68301104/2ce92e30-4121-4a21-84a1-57568248e546)
+<img width="1920" height="1080" alt="CoinDeno" src="https://github.com/user-attachments/assets/53289e3d-240e-4831-9ad9-ff48c4b1191f" />
 
 ## Inspiration
 
