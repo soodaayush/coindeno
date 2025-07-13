@@ -12,7 +12,7 @@ Publishing to the app stores was no walk in the park. Between meeting platform r
 
 ## Lessons Learned
 
-- The ins and outs of React Native — from navigation to state management
+- The ins and outs of React Native, from navigation to state management
 - How to define and deliver a Minimum Viable Product (MVP)
 - The not-so-glamorous but essential process of submitting to the App Store and Google Play (spoiler: it’s harder than it looks!)
 
