@@ -33,7 +33,7 @@
     "react-native-web": "^0.21.0"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.0"
+    "@babel/core": "^8.0.1"
   },
   "private": true,
   "packageManager": "yarn@4.12.0"
